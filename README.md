@@ -1,6 +1,6 @@
-# VibeGuide 🎮✨
-
 <div align="center">
+
+# VibeGuide 🎮✨
 
 **一款像素风 RPG 冒险游戏，带你从零开始学会 Vibe Coding。**
 

@@ -36,6 +36,10 @@ export type GameScreen =
 export interface NotificationPayload {
   msg: string;
   url?: string;
+  /** 为 true 时 toast 不会自动消失，仅可手动关闭 */
+  persistent?: boolean;
+  /** 自定义显示时长(ms)，优先级高于默认值 */
+  duration?: number;
 }
 
 interface GameUIState {
@@ -57,7 +61,7 @@ interface GameStore {
   enterLevel: (level: LevelId) => void;
   showDialog: (speaker: string, lines: string[]) => void;
   advanceDialog: () => string | null;
-  showNotification: (msg: string, options?: { url?: string }) => void;
+  showNotification: (msg: string, options?: { url?: string; persistent?: boolean; duration?: number }) => void;
   clearNotification: () => void;
 
   // --- 玩家数据 ---
@@ -177,7 +181,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   showNotification: (msg, options) =>
-    set((s) => ({ ui: { ...s.ui, notification: { msg, url: options?.url } } })),
+    set((s) => ({ ui: { ...s.ui, notification: { msg, url: options?.url, persistent: options?.persistent, duration: options?.duration } } })),
 
   clearNotification: () =>
     set((s) => ({ ui: { ...s.ui, notification: null } })),

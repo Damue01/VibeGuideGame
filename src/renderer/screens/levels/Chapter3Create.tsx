@@ -118,6 +118,7 @@ export const Chapter3Create: React.FC = () => {
     saveGame,
     viewingStepIndex,
     isViewing,
+    displayedStepIndex,
     displayedNpcDialog,
     handleViewStep,
     handleExitViewing,
@@ -278,9 +279,9 @@ export const Chapter3Create: React.FC = () => {
             </div>
           )}
 
-          {npcDone && !isViewing && (
+          {(npcDone || isViewing) && (
             <div className="level-step-content">
-              {currentStepIndex === 0 && (
+              {displayedStepIndex === 0 && !isViewing && (
                 <div className="level-actions">
                   <button className="pixel-btn pixel-btn--primary" onClick={handleNext}>
                     接受任务 →
@@ -288,7 +289,7 @@ export const Chapter3Create: React.FC = () => {
                 </div>
               )}
 
-              {currentStepIndex === 1 && (
+              {displayedStepIndex === 1 && (
                 <>
                   <div className="level-panels-row">
                     <PromptBlock
@@ -309,14 +310,16 @@ export const Chapter3Create: React.FC = () => {
                       ]}
                     />
                   </div>
-                  <div className="level-actions">
-                    <button className="pixel-btn pixel-btn--accent" onClick={startDetectCreateProject}>
-                      ✨ 我已发送给 AI，开始检测蓝图
-                    </button>
-                    <button className="pixel-btn pixel-btn--small" onClick={handleManualConfirm}>
-                      手动确认：项目已创建 →
-                    </button>
-                  </div>
+                  {!isViewing && (
+                    <div className="level-actions">
+                      <button className="pixel-btn pixel-btn--accent" onClick={startDetectCreateProject}>
+                        ✨ 我已发送给 AI，开始检测蓝图
+                      </button>
+                      <button className="pixel-btn pixel-btn--small" onClick={handleManualConfirm}>
+                        手动确认：项目已创建 →
+                      </button>
+                    </div>
+                  )}
                   {isDetecting && detectMode === 'vite' && (
                     <div className="detection-status">
                       <div className="detection-dot detection-dot--checking" />
@@ -326,7 +329,7 @@ export const Chapter3Create: React.FC = () => {
                 </>
               )}
 
-              {currentStepIndex === 2 && (
+              {displayedStepIndex === 2 && (
                 <>
                   <div className="level-panels-row">
                     <PromptBlock
@@ -348,14 +351,16 @@ export const Chapter3Create: React.FC = () => {
                       ]}
                     />
                   </div>
-                  <div className="level-actions">
-                    <button className="pixel-btn pixel-btn--accent" onClick={startDetectAppModified}>
-                      ✨ 我已让 AI 建造，开始感应魔力
-                    </button>
-                    <button className="pixel-btn pixel-btn--small" onClick={handleManualConfirm}>
-                      手动确认：网站已修改 →
-                    </button>
-                  </div>
+                  {!isViewing && (
+                    <div className="level-actions">
+                      <button className="pixel-btn pixel-btn--accent" onClick={startDetectAppModified}>
+                        ✨ 我已让 AI 建造，开始感应魔力
+                      </button>
+                      <button className="pixel-btn pixel-btn--small" onClick={handleManualConfirm}>
+                        手动确认：网站已修改 →
+                      </button>
+                    </div>
+                  )}
                   {isDetecting && detectMode === 'app' && (
                     <div className="detection-status">
                       <div className="detection-dot detection-dot--checking" />
@@ -365,7 +370,7 @@ export const Chapter3Create: React.FC = () => {
                 </>
               )}
 
-              {currentStepIndex === 3 && (
+              {displayedStepIndex === 3 && (
                 <>
                   <div className="level-panels-row">
                     <PromptBlock
@@ -386,14 +391,16 @@ export const Chapter3Create: React.FC = () => {
                       ]}
                     />
                   </div>
-                  <div className="level-actions">
-                    <button className="pixel-btn pixel-btn--accent" onClick={startDetectPreview}>
-                      ✨ 我已让 AI 启动，开始检测灯塔
-                    </button>
-                    <button className="pixel-btn pixel-btn--small" onClick={handleManualConfirm}>
-                      手动确认：我已成功预览 →
-                    </button>
-                  </div>
+                  {!isViewing && (
+                    <div className="level-actions">
+                      <button className="pixel-btn pixel-btn--accent" onClick={startDetectPreview}>
+                        ✨ 我已让 AI 启动，开始检测灯塔
+                      </button>
+                      <button className="pixel-btn pixel-btn--small" onClick={handleManualConfirm}>
+                        手动确认：我已成功预览 →
+                      </button>
+                    </div>
+                  )}
                   {isDetecting && detectMode === 'port' && (
                     <div className="detection-status">
                       <div className="detection-dot detection-dot--checking" />
@@ -403,7 +410,7 @@ export const Chapter3Create: React.FC = () => {
                 </>
               )}
 
-              {currentStepIndex === 4 && (
+              {displayedStepIndex === 4 && (
                 <>
                   <div className="level-panels-row">
                     <PromptBlock
@@ -424,15 +431,17 @@ export const Chapter3Create: React.FC = () => {
                       ]}
                     />
                   </div>
-                  <div className="level-actions">
-                    <button className="pixel-btn pixel-btn--primary" onClick={handleNext}>
-                      ✅ 我已完成至少一次迭代 →
-                    </button>
-                  </div>
+                  {!isViewing && (
+                    <div className="level-actions">
+                      <button className="pixel-btn pixel-btn--primary" onClick={handleNext}>
+                        ✅ 我已完成至少一次迭代 →
+                      </button>
+                    </div>
+                  )}
                 </>
               )}
 
-              {currentStepIndex === 5 && (
+              {displayedStepIndex === 5 && !isViewing && (
                 <div className="level-actions">
                   <button className="pixel-btn pixel-btn--accent pixel-btn--large" onClick={handleComplete} disabled={isCompleting}>
                     {isCompleting ? '⏳ 处理中...' : '🏰 接收城堡地契！'}

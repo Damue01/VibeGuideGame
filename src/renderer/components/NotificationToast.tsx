@@ -49,16 +49,19 @@ export const NotificationToast: React.FC = () => {
       prevMsg.current = payload.msg;
       const id = ++nextId;
       const type = detectType(payload.msg);
-      const duration = payload.url ? DURATION_ACTION : DURATION;
+      const isPersistent = !!payload.persistent;
+      const duration = payload.duration ?? (payload.url ? DURATION_ACTION : DURATION);
       setToasts((prev) => [...prev.slice(-4), { id, message: payload.msg, type, exiting: false, url: payload.url }]);
 
-      // 自动退出
-      setTimeout(() => {
-        setToasts((prev) => prev.map((t) => (t.id === id ? { ...t, exiting: true } : t)));
-      }, duration);
-      setTimeout(() => {
-        setToasts((prev) => prev.filter((t) => t.id !== id));
-      }, duration + EXIT_MS);
+      // persistent 模式下不自动退出，仅手动关闭
+      if (!isPersistent) {
+        setTimeout(() => {
+          setToasts((prev) => prev.map((t) => (t.id === id ? { ...t, exiting: true } : t)));
+        }, duration);
+        setTimeout(() => {
+          setToasts((prev) => prev.filter((t) => t.id !== id));
+        }, duration + EXIT_MS);
+      }
 
       clearNotification();
     }

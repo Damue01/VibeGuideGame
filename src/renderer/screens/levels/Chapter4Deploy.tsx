@@ -100,6 +100,7 @@ export const Chapter4Deploy: React.FC = () => {
     saveGame,
     viewingStepIndex,
     isViewing,
+    displayedStepIndex,
     displayedNpcDialog,
     handleViewStep,
     handleExitViewing,
@@ -250,9 +251,9 @@ export const Chapter4Deploy: React.FC = () => {
             </div>
           )}
 
-          {npcDone && !isViewing && (
+          {(npcDone || isViewing) && (
             <div className="level-step-content">
-              {currentStepIndex === 0 && (
+              {displayedStepIndex === 0 && !isViewing && (
                 <div className="level-actions">
                   <button className="pixel-btn pixel-btn--primary" onClick={handleNext}>
                     接受传送任务 →
@@ -260,7 +261,7 @@ export const Chapter4Deploy: React.FC = () => {
                 </div>
               )}
 
-              {currentStepIndex === 1 && (
+              {displayedStepIndex === 1 && (
                 <>
                   <div className="level-panels-row">
                     {!gitInstalled && (
@@ -284,64 +285,66 @@ export const Chapter4Deploy: React.FC = () => {
                     />
                   </div>
 
-                  <div className="level-actions">
-                    <button className="pixel-btn pixel-btn--accent" onClick={handleCheckGit} disabled={isDetecting}>
-                      {isDetecting ? '⏳ 检测中...' : '🔍 检测传送石（Git）'}
-                    </button>
-                    <button className="pixel-btn pixel-btn--small" onClick={handleOpenGitDownload}>
-                      📥 打开 Git 下载页
-                    </button>
-                    <button className="pixel-btn pixel-btn--small" onClick={handleManualConfirm}>
-                      手动确认：我已准备好 →
-                    </button>
-                  </div>
+                  {!isViewing && (
+                    <div className="level-actions">
+                      <button className="pixel-btn pixel-btn--accent" onClick={handleCheckGit} disabled={isDetecting}>
+                        {isDetecting ? '⏳ 检测中...' : '🔍 检测传送石（Git）'}
+                      </button>
+                      <button className="pixel-btn pixel-btn--small" onClick={handleOpenGitDownload}>
+                        📥 打开 Git 下载页
+                      </button>
+                      <button className="pixel-btn pixel-btn--small" onClick={handleManualConfirm}>
+                        手动确认：我已准备好 →
+                      </button>
+                    </div>
+                  )}
                 </>
               )}
 
-              {currentStepIndex === 2 && (
+              {displayedStepIndex === 2 && !isViewing && (
                 <div className="level-actions">
                   <button className="pixel-btn pixel-btn--accent" onClick={handleOpenGitHubSignup}>
                     🌐 前往 GitHub 注册
                   </button>
                   <button className="pixel-btn pixel-btn--primary" onClick={() => {
                     handleNext();
-                    // 刚确认/注册完 GitHub 账号，自然地引导点星
-                    setTimeout(() => {
-                      showNotification(
-                        '⭐ 顺手给冒险指南点颗星？你的支持是我们最大的动力！',
-                        { url: 'https://github.com/Damue01/VibeGuideGame' },
-                      );
-                    }, 800);
+                    // 刚确认/注册完 GitHub 账号，立即引导点星，停留 5 秒
+                    showNotification(
+                      '⭐ 顺手给冒险指南点颗星？你的支持是我们最大的动力！',
+                      { url: 'https://github.com/Damue01/VibeGuideGame', duration: 5000 },
+                    );
                   }}>
                     我已有 GitHub 账号 →
                   </button>
                 </div>
               )}
 
-              {currentStepIndex === 3 && (
+              {displayedStepIndex === 3 && (
                 <>
-                  <div style={{ marginTop: 12, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
-                    <span className="pixel-text-cn" style={{ fontSize: 12, color: 'var(--color-text-dim)' }}>
-                      仓库名称：
-                    </span>
-                    <input
-                      type="text"
-                      value={repoName}
-                      onChange={(e) => setRepoName(e.target.value.replace(/[^a-zA-Z0-9-_]/g, ''))}
-                      className="pixel-input"
-                      style={{ width: 160, fontSize: 13 }}
-                    />
-                    <span className="pixel-text-cn" style={{ fontSize: 12, color: 'var(--color-text-dim)' }}>
-                      GitHub 用户名：
-                    </span>
-                    <input
-                      type="text"
-                      value={githubUsername}
-                      onChange={(e) => setGithubUsername(e.target.value)}
-                      className="pixel-input"
-                      style={{ width: 180, fontSize: 13 }}
-                    />
-                  </div>
+                  {!isViewing && (
+                    <div style={{ marginTop: 12, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+                      <span className="pixel-text-cn" style={{ fontSize: 12, color: 'var(--color-text-dim)' }}>
+                        仓库名称：
+                      </span>
+                      <input
+                        type="text"
+                        value={repoName}
+                        onChange={(e) => setRepoName(e.target.value.replace(/[^a-zA-Z0-9-_]/g, ''))}
+                        className="pixel-input"
+                        style={{ width: 160, fontSize: 13 }}
+                      />
+                      <span className="pixel-text-cn" style={{ fontSize: 12, color: 'var(--color-text-dim)' }}>
+                        GitHub 用户名：
+                      </span>
+                      <input
+                        type="text"
+                        value={githubUsername}
+                        onChange={(e) => setGithubUsername(e.target.value)}
+                        className="pixel-input"
+                        style={{ width: 180, fontSize: 13 }}
+                      />
+                    </div>
+                  )}
 
                   <div className="level-panels-row">
                     <PromptBlock
@@ -363,18 +366,20 @@ export const Chapter4Deploy: React.FC = () => {
                     />
                   </div>
 
-                  <div className="level-actions">
-                    <button
-                      className="pixel-btn pixel-btn--accent"
-                      onClick={handleNext}
-                    >
-                      ✅ AI 已帮我配置好 →
-                    </button>
-                  </div>
+                  {!isViewing && (
+                    <div className="level-actions">
+                      <button
+                        className="pixel-btn pixel-btn--accent"
+                        onClick={handleNext}
+                      >
+                        ✅ AI 已帮我配置好 →
+                      </button>
+                    </div>
+                  )}
                 </>
               )}
 
-              {currentStepIndex === 4 && (
+              {displayedStepIndex === 4 && (
                 <>
                   <div className="pixel-panel" style={{ marginTop: 12, maxWidth: 560, borderColor: '#54a0ff' }}>
                     <p className="pixel-text-cn" style={{ fontSize: 12, lineHeight: 1.8, color: 'var(--color-text-dim)' }}>
@@ -391,25 +396,27 @@ export const Chapter4Deploy: React.FC = () => {
                       5. 点击 "Create repository"
                     </p>
                   </div>
-                  <div className="level-actions">
-                    <button
-                      className="pixel-btn pixel-btn--accent"
-                      onClick={() => {
-                        const url = 'https://github.com/new';
-                        if (window.electronAPI) window.electronAPI.openExternal(url);
-                        else window.open(url, '_blank');
-                      }}
-                    >
-                      🌐 打开 GitHub 创建仓库
-                    </button>
-                    <button className="pixel-btn pixel-btn--primary" onClick={handleNext}>
-                      仓库已创建 →
-                    </button>
-                  </div>
+                  {!isViewing && (
+                    <div className="level-actions">
+                      <button
+                        className="pixel-btn pixel-btn--accent"
+                        onClick={() => {
+                          const url = 'https://github.com/new';
+                          if (window.electronAPI) window.electronAPI.openExternal(url);
+                          else window.open(url, '_blank');
+                        }}
+                      >
+                        🌐 打开 GitHub 创建仓库
+                      </button>
+                      <button className="pixel-btn pixel-btn--primary" onClick={handleNext}>
+                        仓库已创建 →
+                      </button>
+                    </div>
+                  )}
                 </>
               )}
 
-              {currentStepIndex === 5 && (
+              {displayedStepIndex === 5 && (
                 <>
                   <div className="level-panels-row">
                     <PromptBlock
@@ -430,15 +437,17 @@ export const Chapter4Deploy: React.FC = () => {
                       ]}
                     />
                   </div>
-                  <div className="level-actions">
-                    <button className="pixel-btn pixel-btn--primary" onClick={handleNext}>
-                      ✅ AI 已完成推送与部署 →
-                    </button>
-                  </div>
+                  {!isViewing && (
+                    <div className="level-actions">
+                      <button className="pixel-btn pixel-btn--primary" onClick={handleNext}>
+                        ✅ AI 已完成推送与部署 →
+                      </button>
+                    </div>
+                  )}
                 </>
               )}
 
-              {currentStepIndex === 6 && (
+              {displayedStepIndex === 6 && (
                 <>
                   <div className="level-panels-row">
                     <div className="pixel-panel" style={{ borderColor: '#ffd700', background: 'rgba(255,215,0,0.08)' }}>
@@ -474,15 +483,17 @@ export const Chapter4Deploy: React.FC = () => {
                       ]}
                     />
                   </div>
-                  <div className="level-actions">
-                    <button className="pixel-btn pixel-btn--primary" onClick={handleNext}>
-                      ✅ 我的网站上线了！
-                    </button>
-                  </div>
+                  {!isViewing && (
+                    <div className="level-actions">
+                      <button className="pixel-btn pixel-btn--primary" onClick={handleNext}>
+                        ✅ 我的网站上线了！
+                      </button>
+                    </div>
+                  )}
                 </>
               )}
 
-              {currentStepIndex === 7 && (
+              {displayedStepIndex === 7 && !isViewing && (
                 <div className="level-actions">
                   <button className="pixel-btn pixel-btn--accent pixel-btn--large" onClick={handleComplete} disabled={isCompleting}>
                     {isCompleting ? '⏳ 处理中...' : '🗝️ 接收灯塔之钥！'}

@@ -58,11 +58,11 @@ export const VictoryScreen: React.FC = () => {
   useEffect(() => {
     startCelebration();
 
-    // 进入通关画面 3 秒后弹出 GitHub 点星引导 Toast
+    // 进入通关画面 3 秒后弹出 GitHub 点星引导 Toast（持久显示，不自动消失）
     const starTimer = setTimeout(() => {
       showNotification(
         '⭐ 喜欢这段冒险？点击给冒险指南点亮星光！',
-        { url: 'https://github.com/Damue01/VibeGuideGame' },
+        { url: 'https://github.com/Damue01/VibeGuideGame', persistent: true },
       );
     }, 3000);
     timeoutRefs.current.push(starTimer);

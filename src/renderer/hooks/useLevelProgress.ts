@@ -104,6 +104,9 @@ export function useLevelProgress({ levelId, steps }: UseLevelProgressOptions) {
     await saveGameData(JSON.stringify(save));
   }, []);
 
+  // 回看时使用回看步骤索引，否则使用当前步骤索引（用于渲染步骤内容）
+  const displayedStepIndex = viewingStepIndex ?? currentStepIndex;
+
   return {
     currentStepIndex,
     currentStep,
@@ -118,6 +121,7 @@ export function useLevelProgress({ levelId, steps }: UseLevelProgressOptions) {
     viewingStepIndex,
     isViewing,
     displayedStep,
+    displayedStepIndex,
     displayedNpcDialog,
     handleViewStep,
     handleExitViewing,
