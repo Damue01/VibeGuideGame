@@ -270,15 +270,6 @@ export const Chapter3Create: React.FC = () => {
             onTypingComplete={handleNpcComplete}
           />
 
-          {/* 回看模式提示 */}
-          {isViewing && (
-            <div className="level-actions">
-              <button className="pixel-btn pixel-btn--primary" onClick={handleExitViewing}>
-                ↩ 回到当前步骤
-              </button>
-            </div>
-          )}
-
           {(npcDone || isViewing) && (
             <div className="level-step-content">
               {displayedStepIndex === 0 && !isViewing && (
@@ -445,6 +436,15 @@ export const Chapter3Create: React.FC = () => {
                 <div className="level-actions">
                   <button className="pixel-btn pixel-btn--accent pixel-btn--large" onClick={handleComplete} disabled={isCompleting}>
                     {isCompleting ? '⏳ 处理中...' : '🏰 接收城堡地契！'}
+                  </button>
+                </div>
+              )}
+
+              {/* 回看模式：回到当前步骤按钮 */}
+              {isViewing && (
+                <div className="level-actions" style={{ marginTop: 12 }}>
+                  <button className="pixel-btn pixel-btn--primary" onClick={handleExitViewing}>
+                    ↩ 回到当前步骤
                   </button>
                 </div>
               )}
