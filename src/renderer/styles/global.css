@@ -666,6 +666,35 @@ input[type="checkbox"], input[type="radio"] {
   animation: toast-exit 0.4s ease-in forwards;
 }
 
+/* 带链接的可交互 toast */
+.notification-toast--action {
+  border-image: linear-gradient(135deg, #ffd700 0%, #ff9ff3 50%, #ffd700 100%) 1;
+  background: linear-gradient(
+    135deg,
+    var(--color-bg) 0%,
+    rgba(255, 215, 0, 0.06) 50%,
+    var(--color-bg) 100%
+  );
+}
+
+.notification-toast--action:hover {
+  filter: brightness(1.15);
+}
+
+.notification-toast__arrow {
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  color: #ffd700;
+  flex-shrink: 0;
+  margin-left: 4px;
+  animation: arrow-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes arrow-pulse {
+  0%, 100% { opacity: 0.6; transform: translateX(0); }
+  50% { opacity: 1; transform: translateX(3px); }
+}
+
 @keyframes toast-enter {
   from { transform: translateX(120%); opacity: 0; }
   to   { transform: translateX(0); opacity: 1; }

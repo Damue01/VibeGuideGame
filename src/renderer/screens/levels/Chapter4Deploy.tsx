@@ -303,7 +303,16 @@ export const Chapter4Deploy: React.FC = () => {
                   <button className="pixel-btn pixel-btn--accent" onClick={handleOpenGitHubSignup}>
                     🌐 前往 GitHub 注册
                   </button>
-                  <button className="pixel-btn pixel-btn--primary" onClick={handleNext}>
+                  <button className="pixel-btn pixel-btn--primary" onClick={() => {
+                    handleNext();
+                    // 刚确认/注册完 GitHub 账号，自然地引导点星
+                    setTimeout(() => {
+                      showNotification(
+                        '⭐ 顺手给冒险指南点颗星？你的支持是我们最大的动力！',
+                        { url: 'https://github.com/Damue01/VibeGuideGame' },
+                      );
+                    }, 800);
+                  }}>
                     我已有 GitHub 账号 →
                   </button>
                 </div>

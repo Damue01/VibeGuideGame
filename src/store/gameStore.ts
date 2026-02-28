@@ -32,13 +32,19 @@ export type GameScreen =
   | 'settings'       // 设置
   | 'victory';       // 通关结算
 
+/** 通知负载：支持纯文本或带可点击链接的通知 */
+export interface NotificationPayload {
+  msg: string;
+  url?: string;
+}
+
 interface GameUIState {
   currentScreen: GameScreen;
   currentLevel: LevelId | null;
   dialogQueue: string[];
   dialogSpeaker: string;
   isTransitioning: boolean;
-  notification: string | null;
+  notification: NotificationPayload | null;
 }
 
 // ============================================================
@@ -51,7 +57,7 @@ interface GameStore {
   enterLevel: (level: LevelId) => void;
   showDialog: (speaker: string, lines: string[]) => void;
   advanceDialog: () => string | null;
-  showNotification: (msg: string) => void;
+  showNotification: (msg: string, options?: { url?: string }) => void;
   clearNotification: () => void;
 
   // --- 玩家数据 ---
@@ -170,8 +176,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
     return next || null;
   },
 
-  showNotification: (msg) =>
-    set((s) => ({ ui: { ...s.ui, notification: msg } })),
+  showNotification: (msg, options) =>
+    set((s) => ({ ui: { ...s.ui, notification: { msg, url: options?.url } } })),
 
   clearNotification: () =>
     set((s) => ({ ui: { ...s.ui, notification: null } })),

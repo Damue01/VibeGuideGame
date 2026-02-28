@@ -10,7 +10,7 @@ import { useAudio } from '../audio/useAudio';
 import './VictoryScreen.css';
 
 export const VictoryScreen: React.FC = () => {
-  const { player, setScreen } = useGameStore();
+  const { player, setScreen, showNotification } = useGameStore();
   const { effectsRef, shakeRef } = useEffectsContext();
   const { playFirework, playReward, playLevelUp } = useAudio();
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -57,6 +57,16 @@ export const VictoryScreen: React.FC = () => {
 
   useEffect(() => {
     startCelebration();
+
+    // 进入通关画面 3 秒后弹出 GitHub 点星引导 Toast
+    const starTimer = setTimeout(() => {
+      showNotification(
+        '⭐ 喜欢这段冒险？点击给冒险指南点亮星光！',
+        { url: 'https://github.com/Damue01/VibeGuideGame' },
+      );
+    }, 3000);
+    timeoutRefs.current.push(starTimer);
+
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
       for (const t of timeoutRefs.current) clearTimeout(t);
