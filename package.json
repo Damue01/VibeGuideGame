@@ -8,6 +8,7 @@
     "dev:vite": "vite",
     "dev:electron": "wait-on http://localhost:5173 && tsc -p tsconfig.node.json && electron .",
     "build": "tsc -p tsconfig.node.json && vite build",
+    "build:web": "vite build --base /VibeGuideGame/",
     "build:electron": "npm run build && electron-builder",
     "preview": "vite preview"
   },
