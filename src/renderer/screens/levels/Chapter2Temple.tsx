@@ -121,11 +121,28 @@ export const Chapter2Temple: React.FC = () => {
   // 浏览选择文件夹基准路径
   const handleBrowseDir = async () => {
     if (window.electronAPI) {
+      // Electron 环境：使用原生目录选择对话框
       const dir = await window.electronAPI.selectDirectory();
       if (dir) {
         const fullPath = dir + (dir.endsWith('/') || dir.endsWith('\\') ? '' : '/') + projectName;
         setProjectPath(fullPath);
       }
+    } else if ('showDirectoryPicker' in window) {
+      // 网页端：使用 File System Access API
+      try {
+        const dirHandle = await (window as any).showDirectoryPicker({ mode: 'readwrite' });
+        const fullPath = dirHandle.name + '/' + projectName;
+        setProjectPath(fullPath);
+        showNotification('📂 已选择目录：' + dirHandle.name);
+      } catch (e: any) {
+        // 用户取消选择不做处理
+        if (e?.name !== 'AbortError') {
+          showNotification('⚠️ 无法打开目录选择器，请直接在输入框中填写路径');
+        }
+      }
+    } else {
+      // 浏览器不支持 File System Access API
+      showNotification('⚠️ 当前浏览器不支持目录选择，请直接在输入框中手动填写完整路径（如 C:/Projects/' + projectName + '）');
     }
   };
 
@@ -143,10 +160,14 @@ export const Chapter2Temple: React.FC = () => {
         await window.electronAPI.createProjectDir(projectPath);
       }
       showNotification('📂 试炼场已创建！请在 IDE 中打开该文件夹。');
+      if (!window.electronAPI) {
+        showNotification('💡 网页端无法自动创建文件夹，请手动在电脑上创建目录：' + projectPath);
+      }
       setIsCreatingProject(false);
       handleNext();
     } catch (e) {
       setIsCreatingProject(false);
+      showNotification('⚠️ 创建失败，请手动创建目录：' + projectPath);
     }
   };
 
