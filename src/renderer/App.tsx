@@ -36,19 +36,18 @@ const App: React.FC = () => {
   const shakeRef = useRef<ScreenShakeHandle>(null);
   const { playBGM, playClick, unlockAudio } = useAudio();
 
-  // 启动时尝试加载存档
+  // 启动时尝试加载存档（Electron / 浏览器 localStorage）
   useEffect(() => {
     const loadSave = async () => {
-      if (window.electronAPI) {
-        try {
-          const saveStr = await window.electronAPI.loadGame();
-          if (saveStr) {
-            const save = JSON.parse(saveStr);
-            useGameStore.getState().loadSaveData(save);
-          }
-        } catch (e) {
-          console.warn('Failed to load save:', e);
+      try {
+        const { loadGameData } = await import('./utils/storage');
+        const saveStr = await loadGameData();
+        if (saveStr) {
+          const save = JSON.parse(saveStr);
+          useGameStore.getState().loadSaveData(save);
         }
+      } catch (e) {
+        console.warn('Failed to load save:', e);
       }
       setLoaded(true);
     };

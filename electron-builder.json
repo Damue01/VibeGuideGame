@@ -11,7 +11,7 @@
     "public/**/*"
   ],
   "win": {
-    "target": ["nsis", "dir", "portable"],
+    "target": ["nsis", "portable"],
     "icon": "build/icon.png"
   },
   "portable": {

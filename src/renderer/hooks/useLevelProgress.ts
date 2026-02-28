@@ -97,12 +97,11 @@ export function useLevelProgress({ levelId, steps }: UseLevelProgressOptions) {
     }
   }, [currentStepIndex, steps, levelId, completeStep, onStepComplete, viewingStepIndex]);
 
-  /** 保存游戏存档到磁盘 */
-  const saveGame = useCallback(() => {
-    if (window.electronAPI) {
-      const save = useGameStore.getState().toSaveData();
-      window.electronAPI.saveGame(JSON.stringify(save));
-    }
+  /** 保存游戏存档（Electron / 浏览器 localStorage） */
+  const saveGame = useCallback(async () => {
+    const { saveGameData } = await import('../utils/storage');
+    const save = useGameStore.getState().toSaveData();
+    await saveGameData(JSON.stringify(save));
   }, []);
 
   return {

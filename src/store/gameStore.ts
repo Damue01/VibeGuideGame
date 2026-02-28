@@ -336,9 +336,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
         notification: null,
       },
     });
-    // 清除本地存档
-    if (window.electronAPI) {
-      window.electronAPI.saveGame(JSON.stringify({
+    // 清除本地存档（Electron / 浏览器 localStorage）
+    import('../renderer/utils/storage').then(({ saveGameData }) => {
+      saveGameData(JSON.stringify({
         version: 1,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -346,7 +346,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         levels: { ...defaultLevels },
         settings: { ...defaultSettings },
       }));
-    }
+    }).catch(() => {});
   },
 
   loadSaveData: (save) => {

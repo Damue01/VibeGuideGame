@@ -8,11 +8,10 @@ export const SettingsScreen: React.FC = () => {
   const { settings, updateSettings, setScreen, player } = useGameStore();
 
   const handleSave = async () => {
-    if (window.electronAPI) {
-      const save = useGameStore.getState().toSaveData();
-      await window.electronAPI.saveGame(JSON.stringify(save));
-      useGameStore.getState().showNotification('💾 游戏已保存！');
-    }
+    const { saveGameData } = await import('../utils/storage');
+    const save = useGameStore.getState().toSaveData();
+    await saveGameData(JSON.stringify(save));
+    useGameStore.getState().showNotification('💾 游戏已保存！');
   };
 
   const handleBack = () => {

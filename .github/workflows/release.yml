@@ -36,7 +36,9 @@ jobs:
       - name: Build & Package
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run build:electron
+        run: npm run build && npx electron-builder --publish never
+        # 先由 vite 构建前端，再用 electron-builder 打包
+        # --publish never 防止 electron-builder 因检测到 GH_TOKEN 而自动发布
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
