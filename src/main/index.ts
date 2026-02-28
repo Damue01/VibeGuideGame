@@ -13,7 +13,7 @@ const ideDetector = new IDEDetector();
 const fileWatcher = new FileWatcher();
 const portChecker = new PortChecker();
 
-const isDev = process.env.NODE_ENV !== 'production' || !app.isPackaged;
+const isDev = !app.isPackaged;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
