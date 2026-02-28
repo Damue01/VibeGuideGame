@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VibeGuide - Vibe Coding 冒险</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" />
+    <style>
+      @font-face {
+        font-family: 'Zpix';
+        src: url('/fonts/zpix.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body, #root {
+        width: 100%; height: 100%;
+        overflow: hidden;
+        background: #1a1a2e;
+        font-family: 'Zpix', 'Press Start 2P', monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/renderer/main.tsx"></script>
+  </body>
+</html>

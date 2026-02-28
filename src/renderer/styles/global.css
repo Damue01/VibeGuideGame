@@ -1,0 +1,999 @@
+/* ============================================================
+   VibeGuide - 全局像素风样式
+   ============================================================ */
+
+/* 像素风全局字体加载 */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* Zpix 中文像素字体（本地） */
+@font-face {
+  font-family: 'Zpix';
+  src: url('/fonts/zpix.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- CSS 变量 --- */
+:root {
+  /* 主色调 - 像素风调色板 */
+  --color-bg-dark: #1a1a2e;
+  --color-bg: #16213e;
+  --color-bg-light: #0f3460;
+  --color-primary: #e94560;
+  --color-secondary: #533483;
+  --color-accent: #ffd700;
+  --color-text: #eee8d5;
+  --color-text-dim: #8b8b8b;
+  --color-success: #2ecc71;
+  --color-warning: #f39c12;
+  --color-danger: #e74c3c;
+
+  /* 职业色 */
+  --color-product: #3498db;
+  --color-developer: #2ecc71;
+  --color-artist: #e94560;
+
+  /* 像素风特性 */
+  --pixel-size: 4px;
+  --border-pixel: 3px solid var(--color-text);
+  --shadow-pixel: 
+    4px 4px 0 rgba(0,0,0,0.3),
+    -1px -1px 0 rgba(255,255,255,0.1) inset;
+
+  /* 像素按钮色板 — 柔和像素 (Soft Pixel) */
+  --btn-indigo: #8b8fd6;
+  --btn-indigo-light: #a0a3e0;
+  --btn-indigo-hover: #7d81cb;
+  --btn-indigo-border: #6b6fb8;
+  --btn-indigo-extrude: #5558a0;
+  --btn-indigo-highlight: rgba(160, 163, 224, 0.20);
+  --btn-indigo-glow: rgba(139, 143, 214, 0.25);
+
+  --btn-emerald: #5ab89a;
+  --btn-emerald-light: #72c8ac;
+  --btn-emerald-hover: #4daa8d;
+  --btn-emerald-border: #3f9a7d;
+  --btn-emerald-extrude: #338268;
+  --btn-emerald-highlight: rgba(114, 200, 172, 0.20);
+  --btn-emerald-glow: rgba(90, 184, 154, 0.25);
+
+  --btn-amber: #d4a04a;
+  --btn-amber-light: #dfb468;
+  --btn-amber-hover: #c89340;
+  --btn-amber-border: #b08038;
+  --btn-amber-extrude: #96692e;
+  --btn-amber-highlight: rgba(223, 180, 104, 0.20);
+  --btn-amber-glow: rgba(212, 160, 74, 0.25);
+
+  --btn-ruby: #c96b6b;
+  --btn-ruby-light: #d58585;
+  --btn-ruby-hover: #be5e5e;
+  --btn-ruby-border: #a85050;
+  --btn-ruby-extrude: #8e4040;
+  --btn-ruby-highlight: rgba(213, 133, 133, 0.20);
+  --btn-ruby-glow: rgba(201, 107, 107, 0.25);
+
+  --btn-slate: #7e8a9a;
+  --btn-slate-light: #95a0ae;
+  --btn-slate-hover: #717d8d;
+  --btn-slate-border: #606c7c;
+  --btn-slate-extrude: #4e5a68;
+  --btn-slate-highlight: rgba(149, 160, 174, 0.18);
+  --btn-slate-glow: rgba(126, 138, 154, 0.20);
+
+  /* 兼容旧变量名 → 映射到新色板 */
+  --btn-blue: var(--btn-indigo);
+  --btn-blue-light: var(--btn-indigo-light);
+  --btn-blue-hover: var(--btn-indigo-hover);
+  --btn-blue-border: var(--btn-indigo-border);
+  --btn-blue-extrude: var(--btn-indigo-extrude);
+  --btn-blue-highlight: var(--btn-indigo-highlight);
+
+  --btn-green: var(--btn-emerald);
+  --btn-green-light: var(--btn-emerald-light);
+  --btn-green-hover: var(--btn-emerald-hover);
+  --btn-green-border: var(--btn-emerald-border);
+  --btn-green-extrude: var(--btn-emerald-extrude);
+  --btn-green-highlight: var(--btn-emerald-highlight);
+
+  --btn-orange: var(--btn-amber);
+  --btn-orange-light: var(--btn-amber-light);
+  --btn-orange-hover: var(--btn-amber-hover);
+  --btn-orange-border: var(--btn-amber-border);
+  --btn-orange-extrude: var(--btn-amber-extrude);
+  --btn-orange-highlight: var(--btn-amber-highlight);
+
+  --btn-red: var(--btn-ruby);
+  --btn-red-light: var(--btn-ruby-light);
+  --btn-red-hover: var(--btn-ruby-hover);
+  --btn-red-border: var(--btn-ruby-border);
+  --btn-red-extrude: var(--btn-ruby-extrude);
+  --btn-red-highlight: var(--btn-ruby-highlight);
+
+  --btn-gray: var(--btn-slate);
+  --btn-gray-light: var(--btn-slate-light);
+  --btn-gray-hover: var(--btn-slate-hover);
+  --btn-gray-border: var(--btn-slate-border);
+  --btn-gray-extrude: var(--btn-slate-extrude);
+  --btn-gray-highlight: var(--btn-slate-highlight);
+
+  /* 默认按钮走靛蓝紫系 */
+  --btn-fill: var(--btn-indigo);
+  --btn-fill-hover: var(--btn-indigo-hover);
+  --btn-fill-border: var(--btn-indigo-border);
+  --btn-fill-extrude: var(--btn-indigo-extrude);
+  --btn-fill-glow: var(--btn-indigo-glow);
+
+  /* 字体 — Zpix 像素字体统一中英文 */
+  --font-pixel: 'Zpix', 'Press Start 2P', monospace;
+  --font-cn: 'Zpix', 'Press Start 2P', monospace;
+
+  /* ── 像素剑光标 ── */
+  --cursor-sword: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none'%3E%3Crect x='0' y='0' width='3' height='3' fill='%23fff'/%3E%3Crect x='3' y='3' width='3' height='3' fill='%23eee8d5'/%3E%3Crect x='6' y='6' width='3' height='3' fill='%23c8c4b0'/%3E%3Crect x='9' y='9' width='3' height='3' fill='%23a8a498'/%3E%3Crect x='9' y='12' width='3' height='3' fill='%23ffd700'/%3E%3Crect x='12' y='12' width='3' height='3' fill='%23b8860b'/%3E%3Crect x='15' y='12' width='3' height='3' fill='%23ffd700'/%3E%3Crect x='12' y='15' width='3' height='3' fill='%238b6914'/%3E%3Crect x='15' y='18' width='3' height='3' fill='%238b4513'/%3E%3Crect x='18' y='21' width='3' height='3' fill='%23b8860b'/%3E%3C/svg%3E") 1 1;
+  --cursor-sword-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none'%3E%3Crect x='0' y='0' width='3' height='3' fill='%23fff'/%3E%3Crect x='3' y='3' width='3' height='3' fill='%23eee8d5'/%3E%3Crect x='6' y='6' width='3' height='3' fill='%23c8c4b0'/%3E%3Crect x='9' y='9' width='3' height='3' fill='%23a8a498'/%3E%3Crect x='9' y='12' width='3' height='3' fill='%23ffd700'/%3E%3Crect x='12' y='12' width='3' height='3' fill='%23b8860b'/%3E%3Crect x='15' y='12' width='3' height='3' fill='%23ffd700'/%3E%3Crect x='12' y='15' width='3' height='3' fill='%238b6914'/%3E%3Crect x='15' y='18' width='3' height='3' fill='%238b4513'/%3E%3Crect x='18' y='21' width='3' height='3' fill='%23b8860b'/%3E%3Crect x='12' y='0' width='3' height='3' fill='%23ffd700'/%3E%3Crect x='9' y='3' width='3' height='3' fill='%23ffd700'/%3E%3Crect x='12' y='3' width='3' height='3' fill='%23fff'/%3E%3Crect x='15' y='3' width='3' height='3' fill='%23ffd700'/%3E%3Crect x='12' y='6' width='3' height='3' fill='%23ffd700'/%3E%3C/svg%3E") 1 1;
+}
+
+/* --- 全局重置 --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* 像素风：禁用抗锯齿 */
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-bg-dark);
+  cursor: var(--cursor-sword), default;
+}
+
+/* 所有可交互元素统一使用剑指针（带火花） */
+a, button, [role="button"], label, select, summary,
+input[type="button"], input[type="submit"],
+input[type="checkbox"], input[type="radio"] {
+  cursor: var(--cursor-sword-pointer), pointer !important;
+}
+
+/* --- 游戏容器 --- */
+.game-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- 通用像素风文字 --- */
+.pixel-text {
+  font-family: var(--font-pixel);
+  color: var(--color-text);
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+  line-height: 1.8;
+}
+
+.pixel-text-cn {
+  font-family: var(--font-cn);
+  color: var(--color-text);
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+  line-height: 1.6;
+}
+
+/* --- 像素按钮（柔和纯色 · 丝滑交互） --- */
+.pixel-btn {
+  --btn-fill: var(--btn-indigo);
+  --btn-fill-hover: var(--btn-indigo-hover);
+  --btn-fill-border: var(--btn-indigo-border);
+  --btn-fill-extrude: var(--btn-indigo-extrude);
+  --btn-fill-glow: var(--btn-indigo-glow);
+
+  font-family: var(--font-cn);
+  font-size: 16px;
+  font-weight: 600;
+  color: #eff0f8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 10px 24px;
+  border: 3px solid var(--btn-fill-border);
+  cursor: var(--cursor-sword-pointer), pointer;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 1.5px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+  /* 纯色背景 */
+  background: var(--btn-fill);
+  box-shadow:
+    0 3px 0 var(--btn-fill-extrude),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  user-select: none;
+  image-rendering: pixelated;
+
+  /* 丝滑过渡 */
+  transition:
+    transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.18s ease,
+    background-color 0.12s ease,
+    border-color 0.12s ease;
+}
+
+/* 极简纹理：仅 1px 顶部高光线 */
+.pixel-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 3px; right: 3px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+/* 移除底部复杂伪元素 */
+.pixel-btn::after {
+  content: none;
+}
+
+/* ── Hover：浮起 + 柔光 ── */
+.pixel-btn:hover {
+  transform: translateY(-2px);
+  background: var(--btn-fill-hover);
+  box-shadow:
+    0 5px 0 var(--btn-fill-extrude),
+    0 0 12px var(--btn-fill-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.pixel-btn:hover::before {
+  opacity: 0.85;
+}
+
+/* ── Active：弹性下压 ── */
+.pixel-btn:active {
+  transform: translateY(2px) scale(0.98);
+  transition-duration: 0.06s;
+  background: var(--btn-fill-hover);
+  box-shadow:
+    0 1px 0 var(--btn-fill-extrude),
+    inset 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+.pixel-btn:active::before {
+  opacity: 0.3;
+}
+
+/* ── Focus-visible：柔和焦点环 ── */
+.pixel-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 3px 0 var(--btn-fill-extrude),
+    0 0 0 3px rgba(255, 255, 255, 0.20),
+    0 0 10px var(--btn-fill-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.pixel-btn__icon {
+  font-size: 18px;
+  line-height: 1;
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.25));
+  transition: transform 0.15s ease;
+}
+
+.pixel-btn:hover .pixel-btn__icon {
+  transform: scale(1.08);
+}
+
+.pixel-btn__label {
+  line-height: 1;
+}
+
+.pixel-btn__badge {
+  margin-left: auto;
+  min-width: 38px;
+  height: 30px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--btn-fill-border);
+  background: rgba(0, 0, 0, 0.12);
+  color: #f0f0f0;
+  font-size: 13px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+  transition: background 0.12s ease;
+}
+
+/* 语义色映射 — 柔和像素色板 */
+.pixel-btn--primary,
+.pixel-btn--orange {
+  --btn-fill: var(--btn-amber);
+  --btn-fill-hover: var(--btn-amber-hover);
+  --btn-fill-border: var(--btn-amber-border);
+  --btn-fill-extrude: var(--btn-amber-extrude);
+  --btn-fill-glow: var(--btn-amber-glow);
+  color: #fdf8ef;
+}
+
+.pixel-btn--accent,
+.pixel-btn--green {
+  --btn-fill: var(--btn-emerald);
+  --btn-fill-hover: var(--btn-emerald-hover);
+  --btn-fill-border: var(--btn-emerald-border);
+  --btn-fill-extrude: var(--btn-emerald-extrude);
+  --btn-fill-glow: var(--btn-emerald-glow);
+  color: #f0faf6;
+}
+
+.pixel-btn--blue {
+  --btn-fill: var(--btn-indigo);
+  --btn-fill-hover: var(--btn-indigo-hover);
+  --btn-fill-border: var(--btn-indigo-border);
+  --btn-fill-extrude: var(--btn-indigo-extrude);
+  --btn-fill-glow: var(--btn-indigo-glow);
+}
+
+.pixel-btn--red {
+  --btn-fill: var(--btn-ruby);
+  --btn-fill-hover: var(--btn-ruby-hover);
+  --btn-fill-border: var(--btn-ruby-border);
+  --btn-fill-extrude: var(--btn-ruby-extrude);
+  --btn-fill-glow: var(--btn-ruby-glow);
+}
+
+.pixel-btn--gray {
+  --btn-fill: var(--btn-slate);
+  --btn-fill-hover: var(--btn-slate-hover);
+  --btn-fill-border: var(--btn-slate-border);
+  --btn-fill-extrude: var(--btn-slate-extrude);
+  --btn-fill-glow: var(--btn-slate-glow);
+}
+
+/* ── Disabled：呼吸微动 ── */
+.pixel-btn:disabled,
+.pixel-btn[disabled] {
+  --btn-fill: var(--btn-slate);
+  --btn-fill-border: var(--btn-slate-border);
+  --btn-fill-extrude: var(--btn-slate-extrude);
+  --btn-fill-glow: var(--btn-slate-glow);
+  color: #b8bcc8;
+  text-shadow: none;
+  cursor: not-allowed;
+  pointer-events: none;
+  animation: btn-breathe 2.5s ease-in-out infinite;
+}
+
+.pixel-btn:disabled::before {
+  opacity: 0.08;
+}
+
+@keyframes btn-breathe {
+  0%, 100% { opacity: 0.50; }
+  50%      { opacity: 0.68; }
+}
+
+/* ── 尺寸变体 ── */
+.pixel-btn--large {
+  font-size: 20px;
+  min-height: 56px;
+  padding: 14px 32px;
+  border-width: 3px;
+}
+
+.pixel-btn--small {
+  font-size: 12px;
+  min-height: 36px;
+  padding: 6px 14px;
+  gap: 8px;
+  border-width: 2px;
+  letter-spacing: 1px;
+}
+
+.pixel-btn--small .pixel-btn__badge {
+  min-width: 28px;
+  height: 22px;
+  font-size: 10px;
+  border-width: 2px;
+}
+
+/* ── 入场动画 (stagger) ── */
+@keyframes btn-stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.title-buttons .pixel-btn,
+.class-confirm .pixel-btn {
+  animation: btn-stagger-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+.title-buttons .pixel-btn:nth-child(1) { animation-delay: 0.05s; }
+.title-buttons .pixel-btn:nth-child(2) { animation-delay: 0.12s; }
+.title-buttons .pixel-btn:nth-child(3) { animation-delay: 0.19s; }
+.title-buttons .pixel-btn:nth-child(4) { animation-delay: 0.26s; }
+.title-buttons .pixel-btn:nth-child(5) { animation-delay: 0.33s; }
+.class-confirm .pixel-btn:nth-child(1) { animation-delay: 0.05s; }
+.class-confirm .pixel-btn:nth-child(2) { animation-delay: 0.12s; }
+
+/* --- 像素风面板/卡片 --- */
+.pixel-panel {
+  background: var(--color-bg);
+  border: 3px solid var(--color-text);
+  box-shadow: var(--shadow-pixel);
+  padding: 20px;
+  position: relative;
+}
+
+.pixel-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.15);
+}
+
+/* --- 像素风进度条 --- */
+.pixel-progress {
+  width: 100%;
+  height: 20px;
+  background: var(--color-bg-dark);
+  border: 2px solid var(--color-text);
+  position: relative;
+  overflow: hidden;
+}
+
+.pixel-progress__fill {
+  height: 100%;
+  background:
+    linear-gradient(90deg,
+      #daa520 0%,
+      #ffd700 35%,
+      #ffec80 50%,
+      #ffd700 65%,
+      #daa520 100%
+    );
+  background-size: 200% 100%;
+  animation: xp-energy-flow 2s linear infinite;
+  transition: width 0.5s ease;
+  position: relative;
+}
+
+@keyframes xp-energy-flow {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* 顶部高光条 */
+.pixel-progress__fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.3) 0%,
+    rgba(255,255,255,0.08) 100%
+  );
+}
+
+/* 尾端发光指示器 */
+.pixel-progress__fill::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -2px;
+  width: 5px;
+  height: calc(100% + 2px);
+  background: linear-gradient(90deg, transparent 0%, #fff8dc 40%, #fffbe6 100%);
+  border-radius: 0;
+  box-shadow: 0 0 6px 2px rgba(255,215,0,0.8), 0 0 12px 4px rgba(255,215,0,0.4);
+  animation: xp-tip-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes xp-tip-pulse {
+  0%, 100% { box-shadow: 0 0 5px 2px rgba(255,215,0,0.7), 0 0 10px 3px rgba(255,215,0,0.3); }
+  50% { box-shadow: 0 0 8px 3px rgba(255,215,0,0.95), 0 0 16px 6px rgba(255,215,0,0.5); }
+}
+
+/* --- 对话框 --- */
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(0,0,0,0.35);
+  padding-bottom: 32px;
+}
+
+.dialog-box {
+  position: relative;
+  width: min(90%, 800px);
+  background: var(--color-bg);
+  border: 4px solid var(--color-text);
+  box-shadow: var(--shadow-pixel), 0 0 30px rgba(0,0,0,0.5);
+  padding: 0;
+  animation: dialog-slide-up 0.25s ease-out;
+}
+
+.dialog-box__speaker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  background: rgba(255,215,0,0.1);
+  border-bottom: 3px solid var(--color-text);
+  font-family: var(--font-cn);
+  font-size: 14px;
+  color: var(--color-accent);
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+}
+
+.dialog-box__text {
+  padding: 20px 24px;
+  font-family: var(--font-cn);
+  font-size: 18px;
+  color: var(--color-text);
+  line-height: 1.8;
+  min-height: 60px;
+}
+
+.dialog-box__indicator {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-size: 12px;
+  color: var(--color-text-dim);
+  animation: blink 1s infinite;
+}
+
+@keyframes dialog-slide-up {
+  from { transform: translateY(40px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* --- 加载画面 --- */
+.loading-screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-dark);
+  color: var(--color-text);
+  font-family: var(--font-cn);
+  font-size: 18px;
+  gap: 20px;
+}
+
+.pixel-spinner {
+  width: 24px;
+  height: 24px;
+  background: var(--color-accent);
+  animation: spin-pixel 0.8s steps(4) infinite;
+}
+
+/* --- 通知 Toast 堆叠 --- */
+.toast-stack {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 200;
+  pointer-events: none;
+}
+
+.notification-toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-bg);
+  border: 3px solid var(--color-accent);
+  padding: 10px 18px;
+  font-family: var(--font-cn);
+  font-size: 13px;
+  color: var(--color-text);
+  box-shadow: var(--shadow-pixel);
+  animation: toast-enter 0.3s ease-out;
+  pointer-events: auto;
+  cursor: var(--cursor-sword-pointer), pointer;
+  max-width: 380px;
+  image-rendering: pixelated;
+}
+
+.notification-toast__icon {
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.notification-toast__msg {
+  line-height: 1.5;
+}
+
+/* 类型色 */
+.notification-toast--success {
+  border-color: #2ed573;
+}
+.notification-toast--success .notification-toast__icon {
+  color: #2ed573;
+  text-shadow: 0 0 6px rgba(46,213,115,0.6);
+}
+
+.notification-toast--warning {
+  border-color: #ffa502;
+}
+.notification-toast--warning .notification-toast__icon {
+  color: #ffa502;
+  text-shadow: 0 0 6px rgba(255,165,2,0.6);
+}
+
+.notification-toast--error {
+  border-color: #ff4757;
+}
+.notification-toast--error .notification-toast__icon {
+  color: #ff4757;
+  text-shadow: 0 0 6px rgba(255,71,87,0.6);
+}
+
+.notification-toast--info {
+  border-color: var(--color-accent);
+}
+.notification-toast--info .notification-toast__icon {
+  color: var(--color-accent);
+  text-shadow: 0 0 6px rgba(255,215,0,0.6);
+}
+
+/* 退出动画 */
+.notification-toast--exit {
+  animation: toast-exit 0.4s ease-in forwards;
+}
+
+@keyframes toast-enter {
+  from { transform: translateX(120%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes toast-exit {
+  0%  { transform: translateX(0); opacity: 1; filter: blur(0px); }
+  60% { transform: translateX(10px); opacity: 0.5; filter: blur(1px); }
+  100% { transform: translateX(60px); opacity: 0; filter: blur(3px); }
+}
+
+/* --- 屏幕布局 --- */
+.screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: screen-enter 0.3s ease-out both;
+}
+
+@keyframes screen-enter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.screen--with-bg {
+  background-size: cover;
+  background-position: center;
+}
+
+/* 场景切换淡入（特殊需要可另加该类） */
+.screen-transition {
+  width: 100%;
+  height: 100%;
+  animation: screen-fade-in 0.35s ease-out both;
+}
+
+@keyframes screen-fade-in {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* --- 动画 --- */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes spin-pixel {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(90deg); }
+  50% { transform: rotate(180deg); }
+  75% { transform: rotate(270deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px var(--color-accent); }
+  50% { box-shadow: 0 0 20px var(--color-accent), 0 0 40px var(--color-accent); }
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* --- XP 弹出 --- */
+.xp-popup {
+  position: absolute;
+  font-family: var(--font-pixel);
+  font-size: 16px;
+  color: var(--color-accent);
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.8);
+  animation: xp-float 1.5s ease-out forwards;
+  pointer-events: none;
+  z-index: 150;
+}
+
+@keyframes xp-float {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-60px); opacity: 0; }
+}
+
+/* --- 奖励弹窗动画 --- */
+@keyframes reward-bounce {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.15); }
+  70% { transform: scale(0.95); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { filter: brightness(1) drop-shadow(0 0 6px currentColor); }
+  50% { filter: brightness(1.3) drop-shadow(0 0 18px currentColor); }
+}
+
+@keyframes pixel-dissolve-in {
+  0% { clip-path: inset(0 100% 0 0); opacity: 0; }
+  100% { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+
+@keyframes pixel-dissolve-out {
+  0% { clip-path: inset(0 0 0 0); opacity: 1; }
+  100% { clip-path: inset(0 0 0 100%); opacity: 0; }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1) rotate(180deg); }
+}
+
+@keyframes level-up-text {
+  0% { transform: scale(0.5) translateY(20px); opacity: 0; text-shadow: 0 0 0 #ffd700; }
+  40% { transform: scale(1.2) translateY(-10px); opacity: 1; text-shadow: 0 0 30px #ffd700; }
+  70% { transform: scale(0.95) translateY(0); }
+  100% { transform: scale(1) translateY(0); opacity: 1; text-shadow: 0 0 10px #ffd700; }
+}
+
+@keyframes shake-horizontal {
+  0%, 100% { transform: translateX(0); }
+  10% { transform: translateX(-6px); }
+  20% { transform: translateX(6px); }
+  30% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  50% { transform: translateX(-2px); }
+  60% { transform: translateX(2px); }
+}
+
+@keyframes confetti-fall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+@keyframes slide-in-bottom {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes zoom-in {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* --- 工具类 --- */
+.anim-reward-bounce { animation: reward-bounce 0.6s ease forwards; }
+.anim-glow-pulse { animation: glow-pulse 2s ease infinite; }
+.anim-sparkle { animation: sparkle 1.5s ease infinite; }
+.anim-level-up { animation: level-up-text 0.8s ease forwards; }
+.anim-shake { animation: shake-horizontal 0.4s ease; }
+.anim-fade-in { animation: fade-in 0.5s ease forwards; }
+.anim-slide-up { animation: slide-up 0.5s ease forwards; }
+.anim-zoom-in { animation: zoom-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+
+/* ============================================================
+   全局像素化重绘基线（保持颜色与布局不变）
+   ============================================================ */
+
+/*
+ * 策略：默认所有动画/过渡保持丝滑（不强制 steps）。
+ * 仅对需要 8-bit 像素步进感的少数元素手动设置 steps。
+ * 这包括：光标闪烁、像素旋转器、检测小圆点等。
+ */
+
+/* 需要像素步进感的元素（有意的 8-bit 效果） */
+.pixel-spinner {
+  animation-timing-function: steps(4) !important;
+}
+
+.dialog-box__indicator,
+.intro-cursor,
+.npc-dialog-bubble__cursor {
+  animation-timing-function: steps(1, end) !important;
+}
+
+/* 禁用模糊滤镜 */
+.screen,
+.screen * {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* 全局硬边处理（按钮保留像素椭圆） */
+.screen * {
+  border-radius: 0 !important;
+}
+
+.pixel-btn,
+.pixel-btn__badge {
+  border-radius: 0 !important;
+}
+
+.pixel-btn--small,
+.pixel-btn--small .pixel-btn__badge {
+  border-radius: 0 !important;
+}
+
+/* 去掉软模糊，改为硬边阴影 */
+.screen * {
+  filter: none;
+}
+
+.pixel-panel,
+.dialog-box,
+.notification-toast,
+.title-confirm-dialog,
+.prompt-block,
+.command-block,
+.class-card,
+.level-card,
+.map-tooltip,
+.replay-confirm {
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.45) !important;
+}
+
+/* 进度与高光：降低柔性发光，强调像素块面 */
+.pixel-progress__fill::before,
+.pixel-progress__fill::after {
+  filter: none !important;
+}
+
+/* ============================================================
+   响应式设计 — 全局断点
+   ============================================================ */
+
+/* 紧凑窗口 (< 700px 高 或 < 900px 宽) */
+@media (max-height: 700px) {
+  .pixel-btn {
+    font-size: 12px;
+    padding: 6px 14px;
+    min-height: 36px;
+    transition-duration: 0.10s;
+  }
+  .pixel-btn::before {
+    opacity: 0.10;
+  }
+  .pixel-btn--large {
+    font-size: 16px;
+    padding: 10px 24px;
+    min-height: 46px;
+  }
+  .dialog-box {
+    padding: 0;
+  }
+  .dialog-box__text {
+    font-size: 15px;
+    min-height: 40px;
+  }
+  .notification-toast {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 900px) {
+  .pixel-btn {
+    font-size: 12px;
+    padding: 6px 14px;
+    min-height: 36px;
+    transition-duration: 0.10s;
+  }
+  .pixel-btn::before {
+    opacity: 0.10;
+  }
+  .pixel-btn--large {
+    font-size: 16px;
+    padding: 10px 24px;
+    min-height: 46px;
+  }
+  .pixel-panel {
+    padding: 14px;
+  }
+}
+
+/* ============================================================
+   像素风自定义滚动条
+   ============================================================ */
+
+/* Webkit (Chrome/Edge/Electron) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-dark);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-text-dim);
+  image-rendering: pixelated;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--color-bg-dark);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-bg-light) var(--color-bg-dark);
+}

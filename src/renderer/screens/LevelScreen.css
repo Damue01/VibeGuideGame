@@ -1,0 +1,514 @@
+/* ============================================================
+   LevelScreen 样式
+   ============================================================ */
+.level-screen {
+  background: var(--color-bg-dark);
+  position: relative;
+}
+
+.level-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.level-placeholder p {
+  font-size: 24px;
+}
+
+/* --- 通用关卡布局 --- */
+.level-layout {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.level-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid var(--color-text-dim);
+}
+
+.level-header__title {
+  font-family: var(--font-cn);
+  font-size: 18px;
+  color: var(--color-accent);
+}
+
+.level-header__progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.level-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* 左侧: NPC/场景区域 */
+.level-scene {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 24px;
+  padding-top: 20px;
+  position: relative;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+/* 各章节场景渐变背景 */
+.level-scene--forge {
+  background: linear-gradient(180deg, rgba(42,26,14,0.55) 0%, rgba(61,43,26,0.55) 100%);
+}
+.level-scene--temple {
+  background: linear-gradient(180deg, rgba(26,26,62,0.55) 0%, rgba(42,26,78,0.55) 100%);
+}
+.level-scene--create {
+  background: linear-gradient(180deg, rgba(26,46,26,0.55) 0%, rgba(46,58,26,0.55) 100%);
+}
+.level-scene--deploy {
+  background: linear-gradient(180deg, rgba(26,26,62,0.55) 0%, rgba(13,27,42,0.55) 100%);
+}
+
+/* 并排面板行（咒语面板 + 帮助面板） */
+.level-panels-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 720px;
+  margin-top: 12px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.level-panels-row > .pixel-panel {
+  flex: 1;
+  min-width: 0;
+  margin-top: 0 !important;
+  max-width: none !important;
+}
+
+/* 右侧: 任务面板 */
+.level-tasks {
+  width: 360px;
+  background: rgba(0, 0, 0, 0.4);
+  border-left: 2px solid var(--color-text-dim);
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.level-tasks__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-text-dim);
+  margin-bottom: 4px;
+}
+
+.level-tasks__title {
+  font-family: var(--font-cn);
+  font-size: 16px;
+  color: var(--color-accent);
+}
+
+.level-tasks__progress {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: var(--color-text-dim);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.level-tasks__progress-bar {
+  width: 60px;
+  height: 8px;
+  background: var(--color-bg-dark);
+  border: 1px solid var(--color-text-dim);
+  overflow: hidden;
+}
+
+.level-tasks__progress-fill {
+  height: 100%;
+  background: var(--color-accent);
+  transition: width 0.4s ease;
+}
+
+/* 任务步骤条 - 带连接线 */
+.task-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid transparent;
+  transition: all 0.3s;
+  position: relative;
+  margin-left: 13px;
+  border-left: 2px solid var(--color-text-dim);
+  padding-left: 20px;
+}
+
+/* 第一个步骤圆角顶部 */
+.task-step:first-of-type {
+  border-top-left-radius: 0;
+}
+
+/* 最后一个步骤不需要连接线到底 */
+.task-step:last-of-type {
+  border-left-color: transparent;
+}
+
+.task-step--current {
+  border-color: var(--color-accent);
+  border-left-color: var(--color-accent);
+  background: rgba(255, 215, 0, 0.06);
+  animation: task-step-glow 2s ease-in-out infinite;
+}
+
+@keyframes task-step-glow {
+  0%, 100% { box-shadow: inset 0 0 0 rgba(255,215,0,0); }
+  50% { box-shadow: inset -2px 0 12px rgba(255,215,0,0.08); }
+}
+
+.task-step--completed {
+  opacity: 0.55;
+  border-left-color: var(--color-success);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.task-step--completed:hover {
+  opacity: 0.8;
+  background: rgba(46, 204, 113, 0.08);
+}
+
+.task-step--viewing {
+  opacity: 1 !important;
+  border-color: #54a0ff;
+  border-left-color: #54a0ff;
+  background: rgba(84, 160, 255, 0.10);
+}
+
+.task-step--viewing .task-step__number {
+  border-color: #54a0ff;
+  color: #54a0ff;
+  box-shadow: 0 0 6px rgba(84, 160, 255, 0.4);
+}
+
+.task-step--viewing .task-step__number::before {
+  background: #54a0ff;
+}
+
+.task-step__viewing-tag {
+  display: inline-block;
+  font-size: 10px;
+  margin-left: 6px;
+  padding: 1px 6px;
+  background: rgba(84, 160, 255, 0.2);
+  border: 1px solid rgba(84, 160, 255, 0.4);
+  color: #54a0ff;
+  vertical-align: middle;
+}
+
+.task-step--locked {
+  opacity: 0.3;
+  border-left-color: rgba(139,139,139,0.3);
+}
+
+.task-step__number {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  border: 2px solid var(--color-text-dim);
+  color: var(--color-text-dim);
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.3s;
+}
+
+/* 连接线上的节点圆点 */
+.task-step__number::before {
+  content: '';
+  position: absolute;
+  left: -28px;
+  top: 50%;
+  width: 8px;
+  height: 2px;
+  background: var(--color-text-dim);
+  transform: translateY(-50%);
+}
+
+.task-step--current .task-step__number {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  box-shadow: 0 0 8px rgba(255,215,0,0.4);
+  animation: step-number-pulse 2s ease-in-out infinite;
+}
+
+.task-step--current .task-step__number::before {
+  background: var(--color-accent);
+}
+
+@keyframes step-number-pulse {
+  0%, 100% { box-shadow: 0 0 4px rgba(255,215,0,0.3); }
+  50% { box-shadow: 0 0 12px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.2); }
+}
+
+.task-step--completed .task-step__number {
+  border-color: var(--color-success);
+  color: var(--color-success);
+  background: rgba(46, 204, 113, 0.15);
+}
+
+.task-step--completed .task-step__number::before {
+  background: var(--color-success);
+}
+
+.task-step__content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.task-step__title {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.task-step__desc {
+  font-family: var(--font-cn);
+  font-size: 12px;
+  color: var(--color-text-dim);
+  line-height: 1.5;
+}
+
+/* NPC 角色展示 */
+.npc-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.npc-sprite {
+  font-size: 80px;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+}
+
+.npc-name {
+  font-family: var(--font-cn);
+  font-size: 16px;
+  color: var(--color-accent);
+}
+
+.npc-dialog-bubble {
+  max-width: 520px;
+  width: 100%;
+  padding: 0;
+  background: var(--color-bg);
+  border: 3px solid var(--color-text);
+  position: relative;
+  box-shadow: var(--shadow-pixel);
+  animation: bubble-appear 0.25s ease-out;
+}
+
+.npc-dialog-bubble__speaker {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  background: rgba(255,215,0,0.12);
+  border-bottom: 2px solid var(--color-text);
+  font-family: var(--font-cn);
+  font-size: 12px;
+  color: var(--color-accent);
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+}
+
+.npc-dialog-bubble__emotion {
+  font-size: 16px;
+  animation: emotion-bounce 0.6s ease-out;
+}
+
+.npc-dialog-bubble__body {
+  padding: 16px 20px;
+  font-family: var(--font-cn);
+  font-size: 16px;
+  color: var(--color-text);
+  line-height: 1.8;
+  white-space: pre-line;
+}
+
+.npc-dialog-bubble__cursor {
+  opacity: 0.5;
+  animation: blink 0.8s step-end infinite;
+}
+
+@keyframes bubble-appear {
+  from { transform: translateY(8px) scale(0.97); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes emotion-bounce {
+  0%   { transform: scale(0.3) rotate(-15deg); }
+  50%  { transform: scale(1.3) rotate(5deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.npc-dialog-bubble::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 12px solid var(--color-text);
+}
+
+/* 操作按钮区 */
+.level-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: step-fade-in 0.35s ease-out;
+}
+
+/* 步骤内容包装容器（含命令面板等，用于 Ch3/Ch4） */
+.level-step-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: step-fade-in 0.35s ease-out;
+}
+
+@keyframes step-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 检测状态指示器 */
+.detection-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--color-text-dim);
+  font-family: var(--font-cn);
+  font-size: 13px;
+}
+
+.detection-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 0; /* 像素风方块 */
+}
+
+.detection-dot--checking {
+  background: var(--color-warning);
+  animation: blink 1s infinite;
+}
+
+.detection-dot--success {
+  background: var(--color-success);
+}
+
+.detection-dot--fail {
+  background: var(--color-danger);
+}
+
+/* --- 响应式 --- */
+@media (max-width: 900px) {
+  .level-body {
+    flex-direction: column;
+  }
+  .level-tasks {
+    width: 100%;
+    max-height: 35vh;
+    border-left: none;
+    border-top: 2px solid var(--color-text-dim);
+    padding: 12px 16px;
+  }
+  .npc-dialog-bubble {
+    max-width: 90%;
+    font-size: 14px;
+    padding: 14px 18px;
+  }
+  .npc-sprite {
+    font-size: 56px;
+  }
+  .level-scene {
+    padding: 16px;
+  }
+  .level-panels-row {
+    flex-direction: column;
+    max-width: 100%;
+  }
+  .level-header__title {
+    font-size: 14px;
+  }
+}
+
+@media (max-height: 600px) {
+  .level-header {
+    padding: 8px 16px;
+  }
+  .npc-sprite {
+    font-size: 48px;
+  }
+  .npc-dialog-bubble {
+    font-size: 13px;
+    padding: 12px 16px;
+    line-height: 1.6;
+  }
+  .level-tasks {
+    max-height: 30vh;
+    padding: 10px 14px;
+    gap: 8px;
+  }
+  .task-step {
+    padding: 8px;
+  }
+  .task-step__title {
+    font-size: 12px;
+  }
+  .task-step__desc {
+    font-size: 11px;
+  }
+  .level-actions {
+    margin-top: 12px;
+  }
+}

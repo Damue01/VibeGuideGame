@@ -1,0 +1,150 @@
+/* ============================================================
+   TitleScreen 样式
+   ============================================================ */
+.title-screen {
+  background: linear-gradient(180deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.title-stars {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  animation: blink 2s infinite;
+}
+
+.star:nth-child(3n) {
+  width: 2px;
+  height: 2px;
+  background: #ffd700;
+}
+
+.title-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  z-index: 1;
+  animation: fade-in 1s ease-out;
+}
+
+.title-logo {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.title-vibe {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 64px;
+  color: #e94560;
+  text-shadow:
+    4px 4px 0 #000,
+    0 0 20px rgba(233, 69, 96, 0.5),
+    0 0 40px rgba(233, 69, 96, 0.3);
+  animation: float 3s ease-in-out infinite;
+}
+
+.title-guide {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 64px;
+  color: #ffd700;
+  text-shadow:
+    4px 4px 0 #000,
+    0 0 20px rgba(255, 215, 0, 0.5),
+    0 0 40px rgba(255, 215, 0, 0.3);
+  animation: float 3s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.title-subtitle {
+  font-size: 18px;
+  color: var(--color-text-dim);
+  animation: fade-in 0.8s ease-out;
+}
+
+.title-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.title-version {
+  position: absolute;
+  bottom: 16px;
+  right: 24px;
+  font-size: 10px;
+  color: var(--color-text-dim);
+}
+
+/* 新游戏确认弹窗 */
+.title-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fade-in 0.2s ease-out;
+}
+
+.title-confirm-dialog {
+  padding: 32px;
+  text-align: center;
+  min-width: 300px;
+  animation: slide-up 0.25s ease-out;
+}
+
+/* --- 响应式 --- */
+@media (max-width: 800px) {
+  .title-logo {
+    gap: 8px;
+  }
+  .title-vibe,
+  .title-guide {
+    font-size: 32px;
+  }
+  .title-subtitle {
+    font-size: 14px;
+  }
+  .title-content {
+    gap: 20px;
+  }
+}
+
+@media (max-height: 600px) {
+  .title-vibe,
+  .title-guide {
+    font-size: 28px;
+  }
+  .title-content {
+    gap: 16px;
+  }
+  .title-buttons {
+    gap: 10px;
+    margin-top: 12px;
+  }
+}
+
+@media (max-width: 500px) {
+  .title-logo {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .title-vibe,
+  .title-guide {
+    font-size: 24px;
+  }
+}

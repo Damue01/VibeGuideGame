@@ -1,0 +1,41 @@
+{
+  "name": "vibeguidegame",
+  "version": "0.1.0",
+  "description": "VibeGuide - 像素风 Vibe Coding 教学冒险游戏",
+  "main": "dist-electron/main/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:vite\" \"npm run dev:electron\"",
+    "dev:vite": "vite",
+    "dev:electron": "wait-on http://localhost:5173 && tsc -p tsconfig.node.json && electron .",
+    "build": "tsc -p tsconfig.node.json && vite build",
+    "build:electron": "npm run build && electron-builder",
+    "preview": "vite preview"
+  },
+  "keywords": ["vibe-coding", "education", "game", "pixel-art"],
+  "author": "VibeGuide Team",
+  "license": "MIT",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/howler": "^2.2.12",
+    "@types/node": "^25.3.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.4",
+    "concurrently": "^9.2.1",
+    "electron": "^40.6.1",
+    "electron-builder": "^26.8.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "wait-on": "^9.0.4"
+  },
+  "dependencies": {
+    "@pixi/react": "^8.0.5",
+    "chokidar": "^5.0.0",
+    "electron-store": "^11.0.2",
+    "howler": "^2.2.4",
+    "pixi.js": "^8.16.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "zustand": "^5.0.11"
+  }
+}

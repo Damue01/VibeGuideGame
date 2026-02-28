@@ -1,0 +1,157 @@
+/* ============================================================
+   IntroScreen 样式 — 自动滚动 + 居中 + 旧行渐隐
+   ============================================================ */
+.intro-screen {
+  background: #0a0a1a;
+  cursor: var(--cursor-sword-pointer), pointer;
+  padding: 0 60px;
+  padding-bottom: 40px;
+  justify-content: center;
+  align-items: center;
+}
+
+.intro-text-container {
+  max-width: 700px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  max-height: 70vh;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* 上下遮罩渐隐 */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 15%,
+    black 85%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 15%,
+    black 85%,
+    transparent 100%
+  );
+}
+
+.intro-text-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* 上下留白，让首/末行出现在容器中间 */
+.intro-spacer {
+  flex-shrink: 0;
+  height: 20vh;
+}
+
+.intro-scroll-anchor {
+  flex-shrink: 0;
+  height: 1px;
+}
+
+.intro-line {
+  font-size: 18px;
+  color: var(--color-text);
+  animation: intro-line-in 0.5s ease-out;
+  transition: opacity 0.6s ease, color 0.6s ease;
+}
+
+/* 渐隐层级 — 越老的行越暗 */
+.intro-line--faded-1 {
+  color: var(--color-text-dim);
+  opacity: 0.7;
+}
+
+.intro-line--faded-2 {
+  color: var(--color-text-dim);
+  opacity: 0.4;
+}
+
+.intro-line--faded-3 {
+  color: var(--color-text-dim);
+  opacity: 0.2;
+}
+
+.intro-line--current {
+  color: var(--color-text);
+  opacity: 1;
+}
+
+@keyframes intro-line-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.intro-cursor {
+  animation: blink 0.8s infinite;
+  color: var(--color-accent);
+}
+
+.intro-continue {
+  margin-top: 24px;
+  animation: magic-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes magic-pulse {
+  0%, 100% {
+    box-shadow:
+      0 3px 0 var(--btn-fill-extrude),
+      0 0 6px rgba(212, 160, 74, 0.20),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+  50% {
+    box-shadow:
+      0 3px 0 var(--btn-fill-extrude),
+      0 0 18px rgba(212, 160, 74, 0.35),
+      0 0 32px rgba(212, 160, 74, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+}
+
+.intro-skip {
+  position: absolute;
+  bottom: 20px;
+  right: 32px;
+  opacity: 0.4;
+  z-index: 100;
+  transition: opacity 0.25s ease, transform 0.2s ease;
+}
+
+.intro-skip:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+/* --- 响应式 --- */
+@media (max-width: 800px) {
+  .intro-screen {
+    padding: 0 32px;
+    padding-bottom: 80px;
+  }
+  .intro-line {
+    font-size: 15px;
+  }
+  .intro-text-container {
+    max-width: 500px;
+  }
+}
+
+@media (max-height: 600px) {
+  .intro-screen {
+    padding: 0 24px;
+    padding-bottom: 64px;
+  }
+  .intro-line {
+    font-size: 14px;
+  }
+  .intro-continue {
+    margin-top: 20px;
+  }
+  .intro-skip {
+    bottom: 16px;
+    right: 24px;
+  }
+}

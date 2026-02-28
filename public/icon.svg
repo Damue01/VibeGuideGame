@@ -1,0 +1,6 @@
+<!-- VibeGuide placeholder icon -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#1a1a2e" rx="8"/>
+  <text x="32" y="24" text-anchor="middle" font-size="16" font-family="monospace" fill="#e94560" font-weight="bold">V</text>
+  <text x="32" y="48" text-anchor="middle" font-size="16" font-family="monospace" fill="#ffd700" font-weight="bold">G</text>
+</svg>

@@ -1,0 +1,70 @@
+/* ============================================================
+   LevelBackground - 关卡主题背景层
+   设计原则：
+   - 极低饱和度渐变 + 超低透明度飘动 emoji
+   - 慢速漂移（18-42s 周期），不抢注意力
+   - pointer-events: none 避免阻挡交互
+   ============================================================ */
+
+.level-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  /* 不影响布局 */
+  user-select: none;
+}
+
+/* 主题渐变底色 */
+.level-bg__gradient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* 漂浮 Emoji 粒子 */
+.level-bg__emoji {
+  position: absolute;
+  z-index: 1;
+  line-height: 1;
+  filter: blur(0.3px);            /* 极轻模糊，保持可辨识 */
+  animation: level-bg-drift ease-in-out infinite both;
+  will-change: transform;
+}
+
+/* 缓慢的 8 字形漂移动画
+   使用 CSS 自定义属性 --drift-x / --drift-y 控制幅度 */
+@keyframes level-bg-drift {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform:
+      translate(var(--drift-x, 10px), calc(var(--drift-y, 8px) * -1))
+      rotate(4deg)
+      scale(1.03);
+  }
+  50% {
+    transform:
+      translate(calc(var(--drift-x, 10px) * -0.6), var(--drift-y, 8px))
+      rotate(-2deg)
+      scale(0.97);
+  }
+  75% {
+    transform:
+      translate(calc(var(--drift-x, 10px) * 0.4), calc(var(--drift-y, 8px) * -0.5))
+      rotate(3deg)
+      scale(1.01);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+}
+
+/* 在减少动画偏好下禁用漂移 */
+@media (prefers-reduced-motion: reduce) {
+  .level-bg__emoji {
+    animation: none;
+  }
+}

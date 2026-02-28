@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+dist-electron/
+
+# Electron-builder release (exe, unpacked, etc.)
+release/
+
+# Logs & OS files
+*.log
+.DS_Store
+Thumbs.db

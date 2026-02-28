@@ -1,0 +1,171 @@
+/* ============================================================
+   PromptBlock 组件样式 — 像素风对话气泡
+   ============================================================ */
+
+.prompt-block {
+  background: rgba(106, 76, 205, 0.10) !important;
+  border-color: #a78bfa !important;
+  padding: 14px 16px !important;
+}
+
+.prompt-block__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.prompt-block__class-tag {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 8px;
+  background: rgba(167, 139, 250, 0.2);
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  color: #c4b5fd;
+  border-radius: 0;
+}
+
+.prompt-block__label {
+  color: #a78bfa;
+  font-size: 12px;
+  margin: 0;
+}
+
+.prompt-block__bubble {
+  display: flex;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  padding: 12px 14px;
+  position: relative;
+}
+
+.prompt-block__bubble::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: -6px;
+  width: 10px;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  border-left: 1px solid rgba(167, 139, 250, 0.25);
+  border-bottom: 1px solid rgba(167, 139, 250, 0.25);
+  transform: rotate(45deg);
+}
+
+.prompt-block__avatar {
+  flex-shrink: 0;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.prompt-block__text {
+  font-size: 12px;
+  color: var(--color-text);
+  white-space: pre-wrap;
+  line-height: 1.7;
+  margin: 0;
+  flex: 1;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.prompt-block__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.prompt-block__copy--done {
+  background: var(--btn-emerald) !important;
+  border-color: var(--btn-emerald-border) !important;
+  color: #fff !important;
+  box-shadow:
+    0 3px 0 var(--btn-emerald-extrude),
+    0 0 10px var(--btn-emerald-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+  transform: scale(1.05);
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.prompt-block__explain-btn {
+  background: rgba(139, 143, 214, 0.08) !important;
+  border-color: rgba(139, 143, 214, 0.30) !important;
+  color: #a0a3e0 !important;
+  transition: all 0.2s ease;
+}
+
+.prompt-block__explain-btn:hover {
+  background: rgba(139, 143, 214, 0.14) !important;
+  box-shadow: 0 0 8px rgba(139, 143, 214, 0.20) !important;
+}
+
+.prompt-block__explanation {
+  margin-top: 10px;
+  padding: 10px 12px;
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--color-text-dim);
+  background: rgba(167, 139, 250, 0.06);
+  border: 1px dashed rgba(167, 139, 250, 0.2);
+}
+
+/* --- TroubleShootPanel 样式 --- */
+.troubleshoot-panel {
+  border-color: #f59e0b !important;
+  background: rgba(245, 158, 11, 0.10) !important;
+  padding: 14px 16px !important;
+}
+
+.troubleshoot-panel__title {
+  color: #f59e0b;
+  font-size: 11px;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.troubleshoot-panel__items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  padding: 10px 12px;
+}
+
+.troubleshoot-panel__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+}
+
+.troubleshoot-panel__item:hover {
+  background: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.troubleshoot-panel__situation {
+  font-size: 12px;
+  color: #fbbf24;
+  line-height: 1.5;
+}
+
+.troubleshoot-panel__action {
+  font-size: 11px;
+  color: var(--color-text-dim);
+  line-height: 1.5;
+  cursor: var(--cursor-sword-pointer), pointer;
+}
+
+.troubleshoot-panel__action:hover {
+  color: var(--color-text);
+}
+
+.troubleshoot-panel__action--copied {
+  color: var(--color-success) !important;
+}

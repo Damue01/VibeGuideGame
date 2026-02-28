@@ -1,0 +1,437 @@
+/* ============================================================
+   WorldMapScreen 样式
+   ============================================================ */
+.world-map-screen {
+  background: linear-gradient(180deg, #060a14 0%, #0a1628 30%, #0d2030 60%, #0d2818 100%);
+  justify-content: flex-start;
+  padding: 0;
+}
+
+/* HUD */
+.map-hud {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 100%);
+  border-bottom: 2px solid var(--color-text-dim);
+  z-index: 10;
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+/* 玩家信息卡片 */
+.hud-player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.hud-avatar {
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--color-accent);
+  background: var(--color-bg-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.4);
+}
+
+.hud-player-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hud-name {
+  font-size: clamp(11px, 1.8vw, 14px);
+  color: var(--color-accent);
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+}
+
+.hud-class {
+  font-size: clamp(9px, 1.3vw, 11px);
+  color: var(--color-text-dim);
+}
+
+/* 中部 XP 区域 */
+.hud-xp {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  max-width: 320px;
+  min-width: 120px;
+}
+
+.hud-level-badge {
+  display: flex; align-items: center; justify-content: center;
+  min-width: 42px; height: 22px; padding: 0 6px;
+  background: linear-gradient(180deg, #ff6b81 0%, #ee5a6f 100%);
+  border: 2px solid #c0392b;
+  font-size: 9px; color: #fff; flex-shrink: 0;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+}
+
+.hud-xp-bar { flex: 1; min-width: 80px; }
+
+.hud-xp-text { font-size: 10px; white-space: nowrap; color: var(--color-text-dim); }
+
+/* 按钮组 */
+.hud-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* 地图容器 */
+.map-container {
+  flex: 1; width: 100%; position: relative; overflow: hidden;
+  background:
+    radial-gradient(1px 1px at 7% 22%, rgba(255,255,255,0.5) 50%, transparent 100%),
+    radial-gradient(1px 1px at 18% 65%, rgba(255,255,255,0.3) 50%, transparent 100%),
+    radial-gradient(1px 1px at 32% 10%, rgba(255,255,255,0.5) 50%, transparent 100%),
+    radial-gradient(1px 1px at 50% 45%, rgba(255,255,255,0.25) 50%, transparent 100%),
+    radial-gradient(1px 1px at 67% 80%, rgba(255,255,255,0.4) 50%, transparent 100%),
+    radial-gradient(1px 1px at 83% 18%, rgba(255,255,255,0.5) 50%, transparent 100%),
+    radial-gradient(1px 1px at 91% 55%, rgba(255,255,255,0.3) 50%, transparent 100%),
+    radial-gradient(2px 2px at 24% 88%, rgba(255,215,0,0.28) 50%, transparent 100%),
+    radial-gradient(2px 2px at 76% 8%, rgba(255,215,0,0.3) 50%, transparent 100%),
+    radial-gradient(2px 2px at 55% 30%, rgba(180,160,255,0.2) 50%, transparent 100%);
+}
+.map-container::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 90%, rgba(34,100,60,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 30% at 85% 15%, rgba(80,60,160,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 20% at 50% 100%, rgba(20,60,30,0.2) 0%, transparent 60%);
+}
+.map-container::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 40% 15% at 20% 50%, rgba(100,120,255,0.06) 0%, transparent 80%),
+    radial-gradient(ellipse 35% 12% at 70% 40%, rgba(255,215,0,0.05) 0%, transparent 80%);
+  animation: mist-drift 25s ease-in-out infinite alternate;
+}
+@keyframes mist-drift {
+  0%   { transform: translateX(0) translateY(0); opacity: 0.7; }
+  50%  { transform: translateX(15px) translateY(-8px); opacity: 1; }
+  100% { transform: translateX(-10px) translateY(5px); opacity: 0.8; }
+}
+
+/* 关卡背景 emoji 层 */
+.level-bg-deco {
+  position: absolute; transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: deco-sway-slow 9s ease-in-out infinite;
+  z-index: 0;
+  filter: blur(0.4px);
+}
+@keyframes deco-sway-slow {
+  0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+  33% { transform: translate(-50%, -53%) scale(1.03) rotate(1deg); }
+  66% { transform: translate(-50%, -48%) scale(0.97) rotate(-1deg); }
+}
+
+/* 装饰物 */
+.map-decoration {
+  position: absolute; transform: translate(-50%, -50%);
+  pointer-events: none; animation: deco-sway 6s ease-in-out infinite; z-index: 1;
+}
+@keyframes deco-sway {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -52%) scale(1.05); }
+}
+
+/* 像素格子路径层 */
+.map-grid-paths {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: grid;
+  grid-template-columns: repeat(60, 1fr);
+  grid-template-rows: repeat(35, 1fr);
+  pointer-events: none;
+  z-index: 2;
+  image-rendering: pixelated;
+}
+
+/* 基础路径格子 */
+.path-cell {
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+/* 中心路面 — 踩踏过的泥土路 */
+.path-cell--center {
+  background: #8B7355;
+  border: 1px solid #6b5535;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* 边缘路面 — 碎石/泥土边缘 */
+.path-cell--edge {
+  background: #7a6548;
+  border: 1px solid #5a4830;
+  opacity: 0.75;
+}
+
+/* 装饰 — 路边杂草/小石子 */
+.path-cell--decoration {
+  background: #5a7a4a;
+  border: 1px solid #4a6a3a;
+  opacity: 0.45;
+}
+
+/* 碎石色差 */
+.path-cell--center,
+.path-cell--edge {
+  filter: hue-rotate(var(--stone-hue, 0deg));
+}
+
+/* 激活路径 — 暖色泥土 */
+.path-cell--active.path-cell--center {
+  background: #a08050;
+  border-color: #806535;
+  box-shadow: inset 0 1px 0 rgba(255,215,0,0.15);
+}
+
+.path-cell--active.path-cell--edge {
+  background: #8a7045;
+  border-color: #6a5530;
+  opacity: 0.85;
+}
+
+.path-cell--active.path-cell--decoration {
+  background: #6a8a52;
+  opacity: 0.5;
+}
+
+/* 锁定路径 — 暗色 */
+.path-cell--locked.path-cell--center {
+  background: #3a3530;
+  border-color: #2a2520;
+  opacity: 0.4;
+}
+
+.path-cell--locked.path-cell--edge {
+  background: #302a25;
+  border-color: #201a15;
+  opacity: 0.25;
+}
+
+.path-cell--locked.path-cell--decoration {
+  opacity: 0.15;
+}
+
+/* 行军动画 — 格子闪烁 */
+.path-cell--active.path-cell--center {
+  animation: path-cell-march 3s steps(1) infinite;
+  animation-delay: var(--march-delay, 0s);
+}
+
+@keyframes path-cell-march {
+  0%, 100% { box-shadow: inset 0 1px 0 rgba(255,215,0,0.15); }
+  50% { box-shadow: inset 0 0 0 1px rgba(255,215,0,0.35), 0 0 4px rgba(255,215,0,0.2); }
+}
+
+/* 节点 */
+.map-node {
+  position: absolute; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center;
+  cursor: var(--cursor-sword-pointer), pointer; z-index: 5;
+  transition: none;
+}
+.map-node:hover { transform: translate(-50%, -50%) scale(1.15); }
+.node-icon {
+  font-size: clamp(28px, 4vw, 42px);
+  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.8));
+  transition: none;
+}
+.node-label {
+  font-size: clamp(9px, 1.3vw, 12px); color: var(--color-text);
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.9); margin-top: 4px; white-space: nowrap;
+  transition: none;
+}
+.node-flag {
+  position: absolute; top: -6px; right: -10px;
+  font-size: clamp(11px, 1.4vw, 15px); line-height: 1;
+  animation: flag-wave 1.8s ease-in-out infinite;
+}
+@keyframes flag-wave {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+.node-lock {
+  position: absolute; top: -6px; right: -8px;
+  font-size: clamp(10px, 1.3vw, 13px); line-height: 1; opacity: 0.7;
+}
+
+/* ——— Tooltip 气泡 ——— */
+.node-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px); left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  background: rgba(8, 12, 28, 0.92);
+  border: 2px solid rgba(255,215,0,0.25);
+  border-radius: 0;
+  padding: 6px 10px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: none;
+  z-index: 20;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5), 0 0 8px rgba(255,215,0,0.08);
+}
+.node-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%; left: 50%;
+  transform: translateX(-50%);
+  width: 6px; height: 6px;
+  background: rgba(8, 12, 28, 0.92);
+  border-right: 2px solid rgba(255,215,0,0.25);
+  border-bottom: 2px solid rgba(255,215,0,0.25);
+}
+.node-tooltip-name {
+  font-size: clamp(10px, 1.4vw, 13px);
+  color: var(--color-accent);
+  margin-bottom: 2px;
+}
+.node-tooltip-desc {
+  font-size: clamp(8px, 1.1vw, 10px);
+  color: var(--color-text-dim);
+}
+.map-node:hover .node-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* 萤火虫 Canvas 层 */
+.map-firefly-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* ======= 节点状态 ======= */
+
+/* — Locked — */
+.node--locked {
+  opacity: 0.3; cursor: var(--cursor-sword), not-allowed; filter: grayscale(0.9);
+}
+.node--locked:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+  opacity: 0.45; filter: grayscale(0.7);
+  animation: node-shake 0.4s ease-in-out;
+}
+.node--locked:hover .node-lock { opacity: 1; }
+.node--locked:hover .node-tooltip { border-color: rgba(255,255,255,0.15); }
+@keyframes node-shake {
+  0%   { transform: translate(-50%, -50%) scale(1.06) translateX(0); }
+  20%  { transform: translate(-50%, -50%) scale(1.06) translateX(-2px); }
+  40%  { transform: translate(-50%, -50%) scale(1.06) translateX(2px); }
+  60%  { transform: translate(-50%, -50%) scale(1.06) translateX(-1.5px); }
+  80%  { transform: translate(-50%, -50%) scale(1.06) translateX(1px); }
+  100% { transform: translate(-50%, -50%) scale(1.06) translateX(0); }
+}
+
+/* — Available — */
+.node--available { animation: node-float-gentle 3.5s ease-in-out infinite; }
+.node--available:hover {
+  transform: translate(-50%, -50%) scale(1.18);
+  animation: none;
+}
+.node--available:hover .node-icon {
+  transform: translateY(-4px);
+  filter:
+    drop-shadow(2px 2px 4px rgba(0,0,0,.8))
+    drop-shadow(0 0 18px rgba(255,215,0,.95))
+    drop-shadow(0 0 32px rgba(255,180,0,.6));
+  animation: none;
+}
+.node--available:hover .node-label {
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(255,215,0,0.3);
+}
+.node--available .node-icon { animation: node-pulse-glow 2.5s ease-in-out infinite; }
+@keyframes node-float-gentle {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+  50% { transform: translate(-50%, -50%) translateY(-6px); }
+}
+@keyframes node-pulse-glow {
+  0%, 100% { filter: drop-shadow(2px 2px 4px rgba(0,0,0,.8)) drop-shadow(0 0 6px rgba(255,215,0,.3)); }
+  50% { filter: drop-shadow(2px 2px 4px rgba(0,0,0,.8)) drop-shadow(0 0 16px rgba(255,215,0,.85)) drop-shadow(0 0 28px rgba(255,180,0,.4)); }
+}
+
+/* — Active (In-Progress) — */
+.node--active { animation: node-float-active 2s ease-in-out infinite; }
+.node--active:hover {
+  transform: translate(-50%, -50%) scale(1.18);
+  animation: none;
+}
+.node--active:hover .node-icon {
+  transform: translateY(-4px);
+  filter:
+    drop-shadow(0 0 16px rgba(255,255,180,1))
+    drop-shadow(0 0 32px rgba(255,215,0,.9))
+    drop-shadow(0 0 48px rgba(255,140,0,.5));
+  animation: none;
+}
+.node--active:hover .node-label {
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.9), 0 0 10px rgba(255,215,0,0.4);
+}
+.node--active .node-icon { animation: node-active-glow 1.6s ease-in-out infinite; }
+@keyframes node-float-active {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+  50% { transform: translate(-50%, -50%) translateY(-9px); }
+}
+@keyframes node-active-glow {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(255,215,0,.7)) drop-shadow(0 0 16px rgba(255,215,0,.4)); }
+  50% { filter: drop-shadow(0 0 14px rgba(255,255,180,1)) drop-shadow(0 0 28px rgba(255,215,0,.85)) drop-shadow(0 0 40px rgba(255,140,0,.5)); }
+}
+
+/* — Completed — */
+.node--completed .node-icon {
+  filter: drop-shadow(0 0 6px rgba(46,204,113,.7));
+}
+.node--completed:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+}
+.node--completed:hover .node-icon {
+  transform: translateY(-3px);
+  filter:
+    drop-shadow(0 0 12px rgba(46,204,113,.85))
+    drop-shadow(0 0 24px rgba(46,204,113,.55))
+    drop-shadow(0 0 36px rgba(46,204,113,.3));
+}
+.node--completed:hover .node-flag {
+  animation-duration: 0.6s;
+}
+.node--completed:hover .node-label {
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(46,204,113,0.3);
+}
+
+/* 底部提示栏 */
+.map-hint {
+  padding: 10px 24px; font-size: clamp(10px, 1.5vw, 13px);
+  background: rgba(0,0,0,.45); border-top: 1px solid rgba(255,255,255,.08);
+  flex-shrink: 0; display: flex; align-items: center; gap: 8px;
+}
+.map-hint-progress { color: var(--color-accent); }
+.map-hint-next { color: var(--color-text-dim); }
+.map-hint-done { color: var(--color-success); animation: blink 2s infinite; }
+
+/* 重玩确认弹窗 */
+.map-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,.6);
+  display: flex; align-items: center; justify-content: center; z-index: 100;
+}
+.map-confirm-dialog { padding: 32px; text-align: center; min-width: 280px; }

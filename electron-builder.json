@@ -1,0 +1,31 @@
+{
+  "appId": "com.vibeguide.game",
+  "productName": "VibeGuide",
+  "copyright": "Copyright © 2026 VibeGuide Team",
+  "directories": {
+    "output": "release"
+  },
+  "files": [
+    "dist/**/*",
+    "dist-electron/**/*",
+    "public/**/*"
+  ],
+  "win": {
+    "target": ["nsis", "dir", "portable"],
+    "icon": "build/icon.png"
+  },
+  "portable": {
+    "artifactName": "VibeGuide-Portable-${version}.exe"
+  },
+  "mac": {
+    "target": ["dmg"],
+    "icon": "build/icon.png",
+    "category": "public.app-category.education"
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "installerLanguages": ["zh_CN", "en_US"],
+    "shortcutName": "VibeGuide"
+  }
+}
