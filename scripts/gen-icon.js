@@ -1,7 +1,7 @@
 const fs = require('fs');
 const zlib = require('zlib');
 
-const width = 256, height = 256;
+const width = 512, height = 512;
 const pixels = Buffer.alloc(width * height * 4, 0);
 
 function setPixel(x, y, r, g, b) {
@@ -22,12 +22,12 @@ for (let i = 0; i < width * height; i++) {
   pixels[i*4] = 0x1a; pixels[i*4+1] = 0x1a; pixels[i*4+2] = 0x2e; pixels[i*4+3] = 255;
 }
 
-// Border in red (#e94560)
-for (let x = 0; x < 256; x++) { fillRect(x, 0, 1, 4, 0xe9, 0x45, 0x60); fillRect(x, 252, 1, 4, 0xe9, 0x45, 0x60); }
-for (let y = 0; y < 256; y++) { fillRect(0, y, 4, 1, 0xe9, 0x45, 0x60); fillRect(252, y, 4, 1, 0xe9, 0x45, 0x60); }
+// Border in red (#e94560) - scaled to 512
+for (let x = 0; x < 512; x++) { fillRect(x, 0, 1, 8, 0xe9, 0x45, 0x60); fillRect(x, 504, 1, 8, 0xe9, 0x45, 0x60); }
+for (let y = 0; y < 512; y++) { fillRect(0, y, 8, 1, 0xe9, 0x45, 0x60); fillRect(504, y, 8, 1, 0xe9, 0x45, 0x60); }
 
-// V shape in gold (#ffd700) - pixel art blocks
-const bs = 16;
+// V shape in gold (#ffd700) - pixel art blocks (scaled 2x)
+const bs = 32;
 const vLeft = [[2,3],[3,4],[4,5],[5,6],[6,7],[7,8]];
 const vRight = [[13,3],[12,4],[11,5],[10,6],[9,7],[8,8]];
 for (const [bx, by] of [...vLeft, ...vRight]) {
