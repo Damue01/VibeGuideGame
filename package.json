@@ -1,6 +1,6 @@
 {
   "name": "vibeguidegame",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "VibeGuide - 像素风 Vibe Coding 教学冒险游戏",
   "main": "dist-electron/main/index.js",
   "scripts": {
