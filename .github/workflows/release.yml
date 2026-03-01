@@ -70,11 +70,16 @@ jobs:
       - name: Checkout (for release notes)
         uses: actions/checkout@v4
 
+      - name: Generate release notes
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          sed "s/{{VERSION}}/$VERSION/g" RELEASE_NOTES.md > RELEASE_BODY.md
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           draft: false
-          body_path: RELEASE_NOTES.md
+          body_path: RELEASE_BODY.md
           files: |
             artifacts/**/*.exe
             artifacts/**/*.dmg

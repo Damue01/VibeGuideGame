@@ -1,4 +1,4 @@
-## VibeGuide v1.0.0 🎮✨
+## VibeGuide {{VERSION}} 🎮✨
 
 **一款像素风 RPG 冒险游戏，带你从零开始学会 Vibe Coding。**
 
@@ -12,9 +12,9 @@
 
 | 文件 | 说明 |
 |------|------|
-| `VibeGuide Setup 1.0.0.exe` | **Windows 安装版**（推荐）双击安装，自动创建桌面快捷方式 |
-| `VibeGuide-Portable-1.0.0.exe` | **Windows 便携版** 无需安装，双击直接运行，适合放U盘随身带 |
-| `VibeGuide-1.0.0.dmg` | **macOS 安装包** 拖入 Applications 即可使用 |
+| `VibeGuide Setup {{VERSION}}.exe` | **Windows 安装版**（推荐）双击安装，自动创建桌面快捷方式 |
+| `VibeGuide-Portable-{{VERSION}}.exe` | **Windows 便携版** 无需安装，双击直接运行，适合放U盘随身带 |
+| `VibeGuide-{{VERSION}}.dmg` | **macOS 安装包** 拖入 Applications 即可使用 |
 
 > 💡 **首次打开 macOS 版本**如果提示"无法打开"，请前往 `系统设置 → 隐私与安全性 → 仍要打开`。
 
