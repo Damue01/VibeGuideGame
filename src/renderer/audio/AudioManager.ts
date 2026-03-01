@@ -17,10 +17,14 @@ class AudioManagerClass {
   private bgmOscillators: OscillatorNode[] = [];
   private bgmTimeouts: ReturnType<typeof setTimeout>[] = [];
   private bgmLoopTimeout: ReturnType<typeof setTimeout> | null = null;
+  private fadeOutTimer: ReturnType<typeof setTimeout> | null = null;
   private isBGMPlaying = false;
 
   private musicVolume = 0.7;
   private sfxVolume = 0.8;
+
+  /** 默认 BGM 淡入时长（秒） */
+  private static readonly DEFAULT_FADE_IN = 0.8;
 
   // ============================================================
   // Initialization
@@ -58,7 +62,11 @@ class AudioManagerClass {
   // ============================================================
   setMusicVolume(v: number) {
     this.musicVolume = v;
-    if (this.musicGain) {
+    if (this.musicGain && this.ctx) {
+      // 取消之前的自动化调度，直接设定新音量
+      this.musicGain.gain.cancelScheduledValues(this.ctx.currentTime);
+      this.musicGain.gain.value = v;
+    } else if (this.musicGain) {
       this.musicGain.gain.value = v;
     }
   }
@@ -76,7 +84,7 @@ class AudioManagerClass {
   // ============================================================
   // BGM Playback
   // ============================================================
-  playBGM(trackId: BGMTrack) {
+  playBGM(trackId: BGMTrack, fadeInDuration?: number) {
     if (this.currentTrack === trackId && this.isBGMPlaying) return;
     this.stopBGM();
     this.currentTrack = trackId;
@@ -84,6 +92,15 @@ class AudioManagerClass {
 
     const track = allTracks[trackId];
     if (!track) return;
+
+    // 淡入：先将 musicGain 设为 0，调度音符后渐变到目标音量
+    const fadeDur = fadeInDuration ?? AudioManagerClass.DEFAULT_FADE_IN;
+    if (fadeDur > 0 && this.musicGain && this.ctx) {
+      const now = this.ctx.currentTime;
+      this.musicGain.gain.cancelScheduledValues(now);
+      this.musicGain.gain.setValueAtTime(0, now);
+      this.musicGain.gain.linearRampToValueAtTime(this.musicVolume, now + fadeDur);
+    }
 
     this.scheduleTrack(track);
   }
@@ -135,6 +152,18 @@ class AudioManagerClass {
     this.isBGMPlaying = false;
     this.currentTrack = null;
 
+    // 取消正在进行的 fadeOut 定时器
+    if (this.fadeOutTimer) {
+      clearTimeout(this.fadeOutTimer);
+      this.fadeOutTimer = null;
+    }
+
+    // 取消 gain 上的自动化调度
+    if (this.musicGain && this.ctx) {
+      this.musicGain.gain.cancelScheduledValues(this.ctx.currentTime);
+      this.musicGain.gain.value = this.musicVolume;
+    }
+
     // 清除所有调度的 timeout
     for (const t of this.bgmTimeouts) clearTimeout(t);
     this.bgmTimeouts = [];
@@ -153,13 +182,16 @@ class AudioManagerClass {
   fadeOut(duration: number = 1) {
     if (this.musicGain && this.ctx) {
       const now = this.ctx.currentTime;
-      this.musicGain.gain.setValueAtTime(this.musicVolume, now);
+      // 先取消之前可能残留的 fadeIn/fadeOut 自动化
+      this.musicGain.gain.cancelScheduledValues(now);
+      this.musicGain.gain.setValueAtTime(this.musicGain.gain.value, now);
       this.musicGain.gain.linearRampToValueAtTime(0, now + duration);
-      setTimeout(() => {
+
+      // 清除之前的 fadeOut 定时器（避免竞态）
+      if (this.fadeOutTimer) clearTimeout(this.fadeOutTimer);
+      this.fadeOutTimer = setTimeout(() => {
+        this.fadeOutTimer = null;
         this.stopBGM();
-        if (this.musicGain) {
-          this.musicGain.gain.value = this.musicVolume;
-        }
       }, duration * 1000);
     } else {
       this.stopBGM();

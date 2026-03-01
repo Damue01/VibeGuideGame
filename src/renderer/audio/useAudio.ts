@@ -24,8 +24,8 @@ export function useAudio() {
     AudioManager.setSFXVolume(sfxVolume);
   }, [sfxVolume]);
 
-  const playBGM = useCallback((track: BGMTrack) => {
-    AudioManager.playBGM(track);
+  const playBGM = useCallback((track: BGMTrack, fadeInDuration?: number) => {
+    AudioManager.playBGM(track, fadeInDuration);
   }, []);
 
   const stopBGM = useCallback(() => {
