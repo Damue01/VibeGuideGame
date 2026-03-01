@@ -23,71 +23,60 @@ const STEPS: CreateStep[] = [
     title: '踏入创造平原',
     description: '建筑师NPC迎接你',
     npcDialog:
-      '勇者，欢迎来到创造平原！我是建筑师洛恩。\n\n从这一章开始，你不需要记命令，不需要碰终端。你只需要告诉 AI 你想建造什么，剩下的执行都交给 AI Agent。\n\n你的目标：建造一座属于你的 React 魔法城堡。',
+      '勇者，欢迎来到创造平原！我是建筑师洛恩。\n\n在这里，你只需要告诉 AI 你想建什么样的网站，它会帮你全部搞定——从创建到设计，一句话搞定。\n\n你的目标：建造一座属于你的魔法城堡（个人网站）。',
   },
   {
-    id: 'create-project',
-    title: '施展蓝图咒语',
-    description: '让 AI 创建 Vite + React 项目',
+    id: 'create-and-build',
+    title: '建造你的城堡',
+    description: '告诉AI你想要什么样的网站',
     npcDialog:
-      '先让 AI 在当前文件夹初始化项目蓝图。你只要说"帮我初始化项目"，AI 就会自动执行创建与依赖安装。\n\n完成后，我会感应 `vite.config` 是否出现。',
-  },
-  {
-    id: 'vibe-coding',
-    title: '施展建造魔法',
-    description: '用自然语言描述你的网站',
-    npcDialog:
-      '蓝图已就位！现在进入 Vibe Coding 核心：描述你想要的网站。\n\n我准备了职业版咒语，你可以直接发给 AI，也可以在此基础上继续补充。',
+      '现在，把下面的话发给 AI，告诉它你想要什么样的网站。\n\nAI 会先问你几个问题了解你的想法，然后自动帮你建好整个网站。\n\n你什么都不用做，就等着看成果就好！',
   },
   {
     id: 'preview',
-    title: '点亮灯塔',
-    description: '让 AI 启动开发服务器并预览',
+    title: '预览你的网站',
+    description: '让AI帮你打开网站看看效果',
     npcDialog:
-      '城堡已经有雏形了！下一步，让 AI 帮你启动开发服务器并预览效果。\n\n我会检测 5173 端口是否点亮。',
+      '城堡已经有雏形了！现在让 AI 帮你打开网站看看效果。\n\n把下面的话发给 AI，它会帮你启动网站。',
   },
   {
     id: 'iterate',
     title: '打磨城堡',
-    description: '继续与 AI 迭代优化',
+    description: '继续告诉AI改进',
     npcDialog:
-      '真正的 Vibe Coding，不是一次成品，而是不断迭代。\n\n不满意哪里，就继续告诉 AI：“再改一点”。一次只提一个需求，效果最好。',
+      '看到效果了吗？不满意哪里，直接告诉 AI。比如"把颜色换成蓝色"、"标题再大一点"。\n\n一次说一个要求，效果最好。改到你满意为止！',
   },
   {
     id: 'complete',
     title: '🏰 建造完成！',
-    description: '你的 React 城堡矗立在平原上',
+    description: '你的网站建好了',
     npcDialog:
-      '🎉 太棒了，勇者！你已经掌握了真正的 Vibe Coding 节奏：\n\n1. 说目标，不写命令\n2. 遇错就把报错丢给 AI\n3. 持续迭代直到满意\n\n下一站——传送灯塔！你将把作品发布到全世界。',
+      '🎉 太棒了，勇者！你已经掌握了真正的 Vibe Coding 节奏：\n\n1. 告诉 AI 你想要什么\n2. 不满意就继续说\n3. 遇到问题就把错误信息丢给 AI\n\n下一站——传送灯塔！你将把网站发布到网上让所有人看到。',
   },
 ];
 
 function getPromptTemplate(playerClass: string): string {
   switch (playerClass) {
     case 'product':
-      return `请帮我把这个 React 项目改造成个人网站。需求如下：
-1. 顶部导航栏：Logo + 菜单（首页、关于我、技能、联系方式）
-2. Hero 区域：大标题 + 一句话介绍 + 一个行动按钮
-3. 关于我：头像占位 + 简短介绍
-4. 技能区：3-5 个技能卡片
-5. 页脚：联系方式和版权
-风格：简洁现代，深蓝 + 白色。请直接修改 src/App.jsx（或 src/App.tsx）并完善样式。`;
+      return `帮我创建一个个人网站，包含这几个部分：
+- 首页：大标题 + 一句话介绍自己
+- 关于我：简单的自我介绍
+- 技能展示：3~5个技能卡片
+- 联系方式
+风格简洁现代，你可以先问我几个问题了解我的需求，然后再开始做。`;
     case 'developer':
-      return `请把这个 React 项目改造成开发者主页。要求：
-- Header：名字 + 导航
-- Hero：有代码感的大标题
-- Skills：网格技能卡片
-- Projects：至少 3 个项目卡片
-- Footer：GitHub 和联系方式
-技术要求：响应式布局，深色主题。请直接修改 src/App.jsx（或 src/App.tsx）并完善样式。`;
+      return `帮我创建一个开发者主页，包含这几个部分：
+- 个人介绍
+- 技能展示
+- 项目展示：至少3个项目卡片
+- 联系方式
+深色主题风格，你可以先问我几个问题了解我的需求，然后再开始做。`;
     case 'artist':
-      return `请把这个 React 项目改造成艺术家作品集网站。设计要求：
-- 深色背景 + 渐变点缀
-- 首屏大标题 + 轻微动画
-- 作品区：至少 6 个作品卡片，悬停有动效
-- 个人简介：图文排版
-- 技能：视觉化标签
-请直接修改 src/App.jsx（或 src/App.tsx）并完善样式，突出视觉氛围。`;
+      return `帮我创建一个作品集网站，包含这几个部分：
+- 作品展示区：至少6个作品卡片，鼠标悬停有动效
+- 个人简介
+- 技能标签
+要有艺术感和动画效果，你可以先问我几个问题了解我的需求，然后再开始做。`;
     default:
       return '';
   }
@@ -125,87 +114,138 @@ export const Chapter3Create: React.FC = () => {
   } = useLevelProgress({ levelId: 'chapter3-create', steps: STEPS });
 
   const [isDetecting, setIsDetecting] = useState(false);
-  const [detectMode, setDetectMode] = useState<'vite' | 'app' | 'port' | null>(null);
+  const [detectMode, setDetectMode] = useState<'build' | 'port' | null>(null);
   const projectPath = settings.projectPath || '';
   const fullProjectPath = projectPath;
 
-  const createProjectPrompt = `请在当前文件夹初始化一个 Vite + React 项目（不要创建子文件夹，直接在当前目录下生成）。
-请直接完成项目初始化，并确认依赖已安装好。
-完成后请告诉我下一步怎么预览。`;
+  const previewPrompt = `帮我启动这个网站，我想看看效果。`;
 
-  const previewPrompt = `请帮我启动这个项目的开发服务器，我想预览网站效果。
-如果端口冲突请自动处理，并告诉我预览地址。`;
+  const iteratePrompt = `帮我继续改进这个网站：
+1. 先给我 3 个可以改进的建议
+2. 我确认后你再开始改
+3. 每次只改一个地方，改完告诉我变了什么`;
 
-  const iteratePrompt = `请在当前网站基础上继续优化：
-1. 先给我 3 条可改进建议（结构、视觉、文案各 1 条）
-2. 我确认后请逐条实现
-3. 每次只修改一个方向，修改后告诉我变化点`;
-
-  const startDetectCreateProject = () => {
-    setDetectMode('vite');
+  const startDetectBuild = () => {
+    setDetectMode('build');
     setIsDetecting(true);
-    showNotification('🔍 开始感应项目蓝图...');
-  };
-
-  const startDetectAppModified = () => {
-    setDetectMode('app');
-    setIsDetecting(true);
-    showNotification('🔍 开始感应 App 组件变化...');
+    showNotification('🔍 开始感应网站建造进度...');
   };
 
   const startDetectPreview = () => {
     setDetectMode('port');
     setIsDetecting(true);
-    showNotification('🔍 开始检测开发服务器端口...');
+    showNotification('🔍 开始检测网站是否已启动...');
   };
 
   useEffect(() => {
     if (!isDetecting || !window.electronAPI) return;
 
     const interval = setInterval(async () => {
-      if (detectMode === 'vite' && currentStepIndex === 1 && projectPath) {
-        const paths = [`${fullProjectPath}/vite.config.js`, `${fullProjectPath}/vite.config.ts`];
-        for (const path of paths) {
-          const exists = await window.electronAPI.checkFile(path);
-          if (exists) {
-            setIsDetecting(false);
-            setDetectMode(null);
-            clearInterval(interval);
-            onDetectSuccess();
-            showNotification('📐 检测到 Vite 蓝图，项目创建成功！');
-            handleNext();
-            return;
+      // 网站创建检测：支持任意技术栈（纯 HTML / Vite / Next / Nuxt / Angular / Svelte / Astro / Vue CLI 等）
+      if (detectMode === 'build' && currentStepIndex === 1 && projectPath) {
+        let detected = false;
+
+        // ── 1. 检查 index.html ──
+        const htmlPath = `${fullProjectPath}/index.html`;
+        const htmlExists = await window.electronAPI.checkFile(htmlPath);
+        if (htmlExists) {
+          const hasHead = await window.electronAPI.checkFileContent(htmlPath, '<head');
+          const hasBody = await window.electronAPI.checkFileContent(htmlPath, '<body');
+          if (hasHead || hasBody) {
+            // 判断是否为 Vite 脚手架未修改的空入口（只有 <div id="root"> + <script type="module">）
+            const isViteEntry = await window.electronAPI.checkFileContent(htmlPath, 'id="root"');
+            const hasModuleScript = await window.electronAPI.checkFileContent(htmlPath, 'type="module"');
+            if (isViteEntry && hasModuleScript) {
+              // 可能是 Vite/React/Vue/Svelte 脚手架入口，需确认源码已被修改
+              const appFiles = [
+                `${fullProjectPath}/src/App.jsx`, `${fullProjectPath}/src/App.tsx`,
+                `${fullProjectPath}/src/App.vue`, `${fullProjectPath}/src/App.svelte`,
+              ];
+              for (const ap of appFiles) {
+                const appExists = await window.electronAPI.checkFile(ap);
+                if (!appExists) continue;
+                const isDefault = await window.electronAPI.checkFileContent(ap, 'Vite + React');
+                if (!isDefault) { detected = true; break; }
+              }
+            } else {
+              // 纯 HTML 网站（或其他带 index.html 的框架），有 head/body 即通过
+              detected = true;
+            }
           }
         }
-      }
 
-      if (detectMode === 'app' && currentStepIndex === 2 && projectPath) {
-        const paths = [`${fullProjectPath}/src/App.jsx`, `${fullProjectPath}/src/App.tsx`];
-        for (const path of paths) {
-          const exists = await window.electronAPI.checkFile(path);
-          if (!exists) continue;
-          const hasViteLogo = await window.electronAPI.checkFileContent(path, 'Vite + React');
-          if (!hasViteLogo) {
-            setIsDetecting(false);
-            setDetectMode(null);
-            clearInterval(interval);
-            onDetectSuccess();
-            showNotification('✨ 检测到你的建造魔法，网站已被改造！');
-            handleNext();
-            return;
+        // ── 2. 检查各种框架配置文件 ──
+        if (!detected) {
+          const frameworkConfigs = [
+            // Vite
+            `${fullProjectPath}/vite.config.js`, `${fullProjectPath}/vite.config.ts`,
+            // Next.js
+            `${fullProjectPath}/next.config.js`, `${fullProjectPath}/next.config.ts`, `${fullProjectPath}/next.config.mjs`,
+            // Nuxt
+            `${fullProjectPath}/nuxt.config.js`, `${fullProjectPath}/nuxt.config.ts`,
+            // Angular
+            `${fullProjectPath}/angular.json`,
+            // Svelte / SvelteKit
+            `${fullProjectPath}/svelte.config.js`,
+            // Astro
+            `${fullProjectPath}/astro.config.mjs`, `${fullProjectPath}/astro.config.ts`,
+            // Vue CLI
+            `${fullProjectPath}/vue.config.js`,
+          ];
+          for (const cfgPath of frameworkConfigs) {
+            const exists = await window.electronAPI.checkFile(cfgPath);
+            if (exists) { detected = true; break; }
           }
         }
-      }
 
-      if (detectMode === 'port' && currentStepIndex === 3) {
-        const open = await window.electronAPI.checkPort(5173);
-        if (open) {
+        // ── 3. 检查 package.json + 源码目录（兜底：任何 Node 项目）──
+        if (!detected) {
+          const pkgExists = await window.electronAPI.checkFile(`${fullProjectPath}/package.json`);
+          if (pkgExists) {
+            const srcExists = await window.electronAPI.checkFile(`${fullProjectPath}/src`);
+            const pagesExists = await window.electronAPI.checkFile(`${fullProjectPath}/pages`);
+            const appDirExists = await window.electronAPI.checkFile(`${fullProjectPath}/app`);
+            if (srcExists || pagesExists || appDirExists) {
+              detected = true;
+            }
+          }
+        }
+
+        if (detected) {
           setIsDetecting(false);
           setDetectMode(null);
           clearInterval(interval);
           onDetectSuccess();
-          showNotification('💡 灯塔点亮成功，已检测到 5173 端口！');
+          showNotification('✨ 网站建造成功！');
           handleNext();
+          return;
+        }
+      }
+
+      // 预览检测：扫描所有常见开发服务器端口
+      if (detectMode === 'port' && currentStepIndex === 2) {
+        const portsToCheck = [
+          5173, 5174,       // Vite
+          3000, 3001,       // Next.js / CRA / Nuxt / Express
+          4200,             // Angular
+          5500, 5501,       // VS Code Live Server
+          8000,             // Python http.server / Django
+          8080, 8888,       // Vue CLI / 通用
+          4173,             // Vite preview
+          1234,             // Parcel
+          4321,             // Astro
+        ];
+        for (const port of portsToCheck) {
+          const open = await window.electronAPI.checkPort(port);
+          if (open) {
+            setIsDetecting(false);
+            setDetectMode(null);
+            clearInterval(interval);
+            onDetectSuccess();
+            showNotification('💡 网站已启动，可以预览了！');
+            handleNext();
+            return;
+          }
         }
       }
     }, 3000);
@@ -284,37 +324,42 @@ export const Chapter3Create: React.FC = () => {
                 <>
                   <div className="level-panels-row">
                     <PromptBlock
-                      prompt={createProjectPrompt}
-                      label="🪄 对 AI 说（蓝图咒语）："
-                      explanation="你只要描述目标，AI Agent 会自动执行项目创建与依赖安装，不需要你手写任何命令。"
+                      prompt={getPromptTemplate(player.class)}
+                      label="✨ 对 AI 说："
+                      classTag={player.class === 'product' ? '产品策划版' : player.class === 'developer' ? '开发工程版' : '美术设计版'}
+                      explanation="把你想要什么样的网站告诉 AI，它会帮你从头开始建好。"
                     />
                     <TroubleShootPanel
                       tips={[
                         {
-                          situation: 'AI 没有创建成功',
-                          prompt: '请检查当前目录的 Vite 项目是否初始化成功，如果失败请自动重试并告诉我原因。',
+                          situation: 'AI 没有开始做',
+                          prompt: '请帮我创建网站，如果之前失败了请重新开始，并告诉我原因。',
                         },
                         {
-                          situation: 'AI 说缺少 Node/npm',
-                          prompt: '请检查我本机是否安装 Node.js 和 npm，如果缺失请告诉我最简单的安装步骤。',
+                          situation: '做出来的和我想的不一样',
+                          prompt: '这个和我想的不一样，请先问我具体想要什么样的，然后重新做。',
+                        },
+                        {
+                          situation: '出现报错',
+                          prompt: '这里报错了，我把错误信息贴给你，帮我修复。',
                         },
                       ]}
                     />
                   </div>
                   {!isViewing && (
                     <div className="level-actions">
-                      <button className="pixel-btn pixel-btn--accent" onClick={startDetectCreateProject}>
-                        ✨ 我已发送给 AI，开始检测蓝图
+                      <button className="pixel-btn pixel-btn--accent" onClick={startDetectBuild}>
+                        ✨ 我已发给 AI，开始检测
                       </button>
                       <button className="pixel-btn pixel-btn--small" onClick={handleManualConfirm}>
-                        手动确认：项目已创建 →
+                        手动确认：网站已建好 →
                       </button>
                     </div>
                   )}
-                  {isDetecting && detectMode === 'vite' && (
+                  {isDetecting && detectMode === 'build' && (
                     <div className="detection-status">
                       <div className="detection-dot detection-dot--checking" />
-                      <span className="pixel-text-cn">🔍 搜索 Vite 蓝图能量...</span>
+                      <span className="pixel-text-cn">🔍 感应网站建造进度...</span>
                     </div>
                   )}
                 </>
@@ -324,60 +369,19 @@ export const Chapter3Create: React.FC = () => {
                 <>
                   <div className="level-panels-row">
                     <PromptBlock
-                      prompt={getPromptTemplate(player.class)}
-                      label="✨ 对 AI 说（建造魔法）："
-                      classTag={player.class === 'product' ? '产品策划版' : player.class === 'developer' ? '开发工程版' : '美术设计版'}
-                      explanation="把你想要的页面结构、风格、内容一次说清楚，AI 会直接改代码。"
-                    />
-                    <TroubleShootPanel
-                      tips={[
-                        {
-                          situation: '生成结果和你想的不一样',
-                          prompt: '这个版本和我预期不一致，请先总结差异，再按我的目标重做。',
-                        },
-                        {
-                          situation: '出现报错',
-                          prompt: '这个报错了，我把完整错误贴给你，请定位原因并直接修复。',
-                        },
-                      ]}
-                    />
-                  </div>
-                  {!isViewing && (
-                    <div className="level-actions">
-                      <button className="pixel-btn pixel-btn--accent" onClick={startDetectAppModified}>
-                        ✨ 我已让 AI 建造，开始感应魔力
-                      </button>
-                      <button className="pixel-btn pixel-btn--small" onClick={handleManualConfirm}>
-                        手动确认：网站已修改 →
-                      </button>
-                    </div>
-                  )}
-                  {isDetecting && detectMode === 'app' && (
-                    <div className="detection-status">
-                      <div className="detection-dot detection-dot--checking" />
-                      <span className="pixel-text-cn">🔍 感应 App 组件的魔力变化...</span>
-                    </div>
-                  )}
-                </>
-              )}
-
-              {displayedStepIndex === 3 && (
-                <>
-                  <div className="level-panels-row">
-                    <PromptBlock
                       prompt={previewPrompt}
-                      label="💡 对 AI 说（点亮灯塔）："
-                      explanation="AI 会帮你启动开发服务器。你只需要打开预览地址确认效果。"
+                      label="💡 对 AI 说："
+                      explanation="AI 会帮你启动网站，你只要打开它给你的网址看效果。"
                     />
                     <TroubleShootPanel
                       tips={[
                         {
-                          situation: '服务器启动失败',
-                          prompt: '开发服务器没启动成功，请自动排查并修复后重新启动。',
+                          situation: '网站启动失败',
+                          prompt: '网站没启动成功，帮我检查一下哪里有问题并修复。',
                         },
                         {
-                          situation: '端口被占用',
-                          prompt: '5173 端口可能被占用，请帮我切换可用端口并告诉我预览地址。',
+                          situation: '打开是空白的',
+                          prompt: '网站打开是空白的，帮我检查哪里有问题并修复。',
                         },
                       ]}
                     />
@@ -385,7 +389,7 @@ export const Chapter3Create: React.FC = () => {
                   {!isViewing && (
                     <div className="level-actions">
                       <button className="pixel-btn pixel-btn--accent" onClick={startDetectPreview}>
-                        ✨ 我已让 AI 启动，开始检测灯塔
+                        ✨ 我已让 AI 启动，开始检测
                       </button>
                       <button className="pixel-btn pixel-btn--small" onClick={handleManualConfirm}>
                         手动确认：我已成功预览 →
@@ -395,29 +399,29 @@ export const Chapter3Create: React.FC = () => {
                   {isDetecting && detectMode === 'port' && (
                     <div className="detection-status">
                       <div className="detection-dot detection-dot--checking" />
-                      <span className="pixel-text-cn">🔍 检测 5173 端口中...</span>
+                      <span className="pixel-text-cn">🔍 检测网站是否已启动...</span>
                     </div>
                   )}
                 </>
               )}
 
-              {displayedStepIndex === 4 && (
+              {displayedStepIndex === 3 && (
                 <>
                   <div className="level-panels-row">
                     <PromptBlock
                       prompt={iteratePrompt}
-                      label="🔁 对 AI 说（迭代打磨）："
-                      explanation="一次只改一个点：例如先改导航，再改配色，再改文案。小步快跑是 Vibe Coding 的关键。"
+                      label="🔁 对 AI 说："
+                      explanation="一次只说一个想改的地方，比如先改颜色，再改文字。小步快跑是关键。"
                     />
                     <TroubleShootPanel
                       tips={[
                         {
-                          situation: '我不知道下一步改什么',
-                          prompt: '请基于当前页面给我 3 条高价值改进建议，并按优先级排序。',
+                          situation: '不知道还能改什么',
+                          prompt: '帮我看看这个网站还有哪里可以改进，给我 3 个建议。',
                         },
                         {
-                          situation: '改动太大，想回退一部分',
-                          prompt: '请保留这次改动里我喜欢的部分，其他内容恢复到上一版风格。',
+                          situation: '改太多了，想回退',
+                          prompt: '这次改的太多了，帮我保留我喜欢的部分，其他的改回去。',
                         },
                       ]}
                     />
@@ -432,7 +436,7 @@ export const Chapter3Create: React.FC = () => {
                 </>
               )}
 
-              {displayedStepIndex === 5 && !isViewing && (
+              {displayedStepIndex === 4 && !isViewing && (
                 <div className="level-actions">
                   <button className="pixel-btn pixel-btn--accent pixel-btn--large" onClick={handleComplete} disabled={isCompleting}>
                     {isCompleting ? '⏳ 处理中...' : '🏰 接收城堡地契！'}
@@ -484,29 +488,29 @@ export const Chapter3Create: React.FC = () => {
 
           <div className="pixel-panel" style={{ marginTop: 16, fontSize: 12 }}>
             <p className="pixel-text-cn" style={{ color: 'var(--color-accent)', marginBottom: 8 }}>
-              💡 Vibe Coding 三原则
+              💡 和AI说话的三个秘诀
             </p>
             <p className="pixel-text-cn" style={{ fontSize: 12, lineHeight: 1.8, color: 'var(--color-text-dim)' }}>
-              <strong>1. 描述目标，不描述命令</strong>
+              <strong>1. 直接说你想要什么</strong>
               <br />
-              直接告诉 AI 你想要什么结果。
+              不用管怎么做，只说结果。
               <br />
-              <strong>2. 报错直接贴给 AI</strong>
+              <strong>2. 遇到问题直接截图给AI</strong>
               <br />
-              不用自己排查，先让 AI 解释并修复。
+              别自己研究，让 AI 帮你解决。
               <br />
-              <strong>3. 持续迭代，一次一个需求</strong>
+              <strong>3. 一次只说一个要求</strong>
               <br />
-              小步修改，快速反馈，直到满意。
+              慢慢来，一点一点改，效果最好。
             </p>
           </div>
 
           <div className="pixel-panel" style={{ marginTop: 12, fontSize: 12 }}>
             <p className="pixel-text-cn" style={{ color: '#54a0ff', marginBottom: 8 }}>
-              🤖 AI Agent 能做什么？
+              🤖 AI 能帮你做什么？
             </p>
             <p className="pixel-text-cn" style={{ fontSize: 11, lineHeight: 1.8, color: 'var(--color-text-dim)' }}>
-              读取和修改项目文件、安装依赖、启动开发服务、根据报错自动修复问题。你负责表达创意，AI 负责执行细节。
+              创建网站、改设计、加功能、启动网站、修复问题……你只管说，它来做。
             </p>
           </div>
         </div>

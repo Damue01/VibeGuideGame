@@ -138,11 +138,10 @@ export const Chapter4Deploy: React.FC = () => {
 请帮我完成所有步骤：
 1. 创建 GitHub 仓库
 2. 上传代码
-3. 部署到 GitHub Pages
+3. 检查Pages相关设置，确保部署权限和 Pages Source 配置正确
+4. 部署到 GitHub Pages
 
-注意：如果部署时提示 Pages 相关权限错误，请帮我到仓库 Settings → Pages → Source 设为 GitHub Actions，或用 GitHub CLI 执行：gh api repos/{owner}/{repo}/pages -X POST -f build_type=workflow
-
-完成后告诉我网站地址。`;
+完成后告诉我网站地址，如果遇到任何问题，先尝试帮我解决，最终实在不行再引导我操作。`;
 
   const handleManualConfirm = () => {
     handleNext();
