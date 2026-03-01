@@ -23,56 +23,42 @@ const STEPS: DeployStep[] = [
     title: '抵达传送灯塔',
     description: '灯塔守卫迎接你',
     npcDialog:
-      '勇者，欢迎来到传送灯塔！我是守卫赫尔墨斯。\n\n这一章你将把作品传送到全世界。依然不需要手敲命令——你只管告诉 AI 目标，AI Agent 会执行部署流程。',
+      '勇者，欢迎来到最后一站——传送灯塔！我是守卫赫尔墨斯。\n\n这一章你要把做好的网站发布到网上，让全世界都能看到。\n\n放心，和之前一样，你只要告诉 AI 想做什么，它来帮你搞定。',
   },
   {
     id: 'check-tools',
-    title: '检查传送石',
+    title: '检查工具',
     description: '检测 Git 是否可用',
     npcDialog:
-      '传送阵需要 Git 这块传送石。我先帮你自动检测。\n\n如果没装，也不用慌，直接让 AI 告诉你怎么安装并带你完成。',
+      '发布网站需要一个叫 Git 的小工具。我先帮你检查一下有没有。\n\n如果没有也不用担心，直接让 AI 帮你装就行。',
   },
   {
-    id: 'github-account',
-    title: '注册传送阵',
-    description: '准备 GitHub 账号',
+    id: 'confirm-login',
+    title: '确认登录',
+    description: '确认 GitHub 账号已登录',
     npcDialog:
-      '接下来需要 GitHub 账号作为云端传送阵。已有账号可直接下一步，没有就先注册。',
+      '网站会发布到 GitHub 上面。你需要一个 GitHub 账号。\n\n好消息是，你的 IDE 里很可能已经登录了。如果没有，让 AI 帮你登录就好。',
   },
   {
-    id: 'ai-deploy-config',
-    title: '请求 AI 协助配置',
-    description: '让 AI 完成 Pages 配置',
+    id: 'ai-deploy',
+    title: '一键发布',
+    description: '让 AI 帮你发布网站',
     npcDialog:
-      '现在请 AI 配置部署：安装 gh-pages、设置 base、补齐 deploy 脚本。\n\n你只需要复制咒语发给 AI。',
-  },
-  {
-    id: 'create-repo',
-    title: '建造传送阵底座',
-    description: '在 GitHub 网页创建仓库',
-    npcDialog:
-      '这一步需要网页操作：在 GitHub 新建仓库。仓库建好后，我们就能让 AI 一次性完成推送和部署。',
-  },
-  {
-    id: 'push-and-deploy',
-    title: '启动传送！',
-    description: '让 AI 推送并部署到 Pages',
-    npcDialog:
-      '把最终咒语交给 AI：让它把项目推送到 GitHub，并执行部署。\n\n你不需要手工输入 git 和 npm 命令。',
+      '现在是最关键的一步！把下面这句话发给 AI，它会帮你完成所有操作：创建仓库、上传代码、发布网站。\n\n你什么都不用做，等 AI 告诉你网站地址就行。\n\n⚠️ 注意：如果发布后报错 Pages 未启用或权限不足，参考右边的「排障指南」，把相关信息告诉 AI 即可。',
   },
   {
     id: 'verify',
-    title: '验证传送',
-    description: '访问上线地址确认成功',
+    title: '查看网站',
+    description: '打开网址看看你的网站',
     npcDialog:
-      '部署通常要 1-3 分钟。完成后访问你的网站地址确认是否上线。\n\n若异常，直接把现象和报错发给 AI。',
+      'AI 应该已经给你网站地址了。点开看看吧！\n\n第一次可能需要等 1-3 分钟才能打开。如果打不开，把情况告诉 AI 让它帮你排查。\n\n如果 GitHub Actions 显示红色叉号，很可能是仓库的 Pages 功能没开启。告诉 AI，它会帮你处理。',
   },
   {
     id: 'complete',
-    title: '🗼 传送成功！',
-    description: '你的作品已传送到全世界',
+    title: '🗼 发布成功！',
+    description: '你的作品已经上线了',
     npcDialog:
-      '🎉 传送成功！你已经掌握了上线作品的完整闭环：\n\n- 描述目标\n- 让 AI 执行\n- 结果验证\n- 出错迭代\n\n这就是高效 Vibe Coding。',
+      '🎉 恭喜你！你的网站已经上线，全世界都能看到了！\n\n你已经学会了完整的 Vibe Coding：\n- 告诉 AI 你想要什么\n- 让 AI 帮你做\n- 看效果，提意见\n- 不满意就让 AI 改\n\n这就是现代编程的新方式。去创造更多吧！',
   },
 ];
 
@@ -108,12 +94,6 @@ export const Chapter4Deploy: React.FC = () => {
 
   const [gitInstalled, setGitInstalled] = useState(false);
   const [isDetecting, setIsDetecting] = useState(false);
-  const [repoName, setRepoName] = useState(() => {
-    const p = settings.projectPath || '';
-    const parts = p.replace(/[\\/]+$/, '').split(/[\\/]/);
-    return parts[parts.length - 1] || 'my-website';
-  });
-  const [githubUsername, setGithubUsername] = useState('YOUR-USERNAME');
   const [isLevelCompleted, setIsLevelCompleted] = useState(false);
   const projectPath = settings.projectPath || '';
 
@@ -138,10 +118,10 @@ export const Chapter4Deploy: React.FC = () => {
         setGitInstalled(found);
         if (found) {
           onDetectSuccess();
-          showNotification('✅ 检测到传送石（Git）！');
+          showNotification('✅ 检测到 Git！');
           setTimeout(() => handleNext(), 400);
         } else {
-          showNotification('❌ 未检测到 Git，请让 AI 协助安装');
+          showNotification('❌ 没检测到 Git，让 AI 帮你装');
         }
       } catch {
         showNotification('⚠️ 检测失败，可用手动确认继续');
@@ -150,42 +130,19 @@ export const Chapter4Deploy: React.FC = () => {
     setIsDetecting(false);
   };
 
-  const handleOpenGitDownload = () => {
-    const url = 'https://git-scm.com/downloads';
-    if (window.electronAPI) {
-      window.electronAPI.openExternal(url);
-    } else {
-      window.open(url, '_blank');
-    }
-  };
+  const gitInstallPrompt = '帮我检查有没有安装 Git，如果没有请帮我装上。';
 
-  const handleOpenGitHubSignup = () => {
-    const url = 'https://github.com/signup';
-    if (window.electronAPI) {
-      window.electronAPI.openExternal(url);
-    } else {
-      window.open(url, '_blank');
-    }
-  };
+  const confirmLoginPrompt = '帮我检查一下我的 IDE 里有没有登录 GitHub。如果没有，请帮我登录。';
 
-  const deployConfigPrompt = `我想把当前 Vite + React 项目部署到 GitHub Pages。
-请你直接帮我完成部署配置：
-1) 安装 gh-pages
-2) 在 vite.config 中正确设置 base（仓库名是 ${repoName}）
-3) 在 package.json 添加 predeploy/deploy 脚本
-4) 检查配置是否可执行
-完成后请告诉我“可以部署了”。`;
+  const aiDeployPrompt = `帮我把这个网站发布到网上，让别人也能访问。
+请帮我完成所有步骤：
+1. 创建 GitHub 仓库
+2. 上传代码
+3. 部署到 GitHub Pages
 
-  const pushAndDeployPrompt = `请帮我把当前项目上传到 GitHub 并部署到 GitHub Pages。
-我的仓库地址是：https://github.com/${githubUsername}/${repoName}
+注意：如果部署时提示 Pages 相关权限错误，请帮我到仓库 Settings → Pages → Source 设为 GitHub Actions，或用 GitHub CLI 执行：gh api repos/{owner}/{repo}/pages -X POST -f build_type=workflow
 
-请你自动完成：
-1) 初始化并检查 git 状态
-2) 提交当前代码并推送到 main
-3) 执行部署命令
-4) 告诉我最终线上地址和下一步验证方法`;
-
-  const gitInstallPrompt = '帮我检查系统是否安装了 Git；如果没有，请一步步指导我安装并验证可用。';
+完成后告诉我网站地址。`;
 
   const handleManualConfirm = () => {
     handleNext();
@@ -247,7 +204,7 @@ export const Chapter4Deploy: React.FC = () => {
               {displayedStepIndex === 0 && !isViewing && (
                 <div className="level-actions">
                   <button className="pixel-btn pixel-btn--primary" onClick={handleNext}>
-                    接受传送任务 →
+                    接受发布任务 →
                   </button>
                 </div>
               )}
@@ -258,31 +215,23 @@ export const Chapter4Deploy: React.FC = () => {
                     {!gitInstalled && (
                       <PromptBlock
                         prompt={gitInstallPrompt}
-                        label="🧭 未检测到 Git 时，对 AI 说："
-                        explanation="这一步只用来获得安装引导。安装完成后，回到这里再点一次检测即可。"
+                        label="🧭 如果检测失败，对 AI 说："
+                        explanation="让 AI 帮你检查并安装 Git。"
                       />
                     )}
                     <TroubleShootPanel
                       tips={[
                         {
-                          situation: '不知道如何验证 Git 是否安装成功',
-                          prompt: '请告诉我如何验证 Git 已安装，并帮我解读验证结果。',
-                        },
-                        {
-                          situation: '安装过程报错',
-                          prompt: '安装 Git 报错了，我把错误贴给你，请帮我修复安装问题。',
+                          situation: '安装过程中报错',
+                          prompt: '安装 Git 时报错了，我把错误贴给你，帮我解决。',
                         },
                       ]}
                     />
                   </div>
-
                   {!isViewing && (
                     <div className="level-actions">
                       <button className="pixel-btn pixel-btn--accent" onClick={handleCheckGit} disabled={isDetecting}>
-                        {isDetecting ? '⏳ 检测中...' : '🔍 检测传送石（Git）'}
-                      </button>
-                      <button className="pixel-btn pixel-btn--small" onClick={handleOpenGitDownload}>
-                        📥 打开 Git 下载页
+                        {isDetecting ? '⏳ 检测中...' : '🔍 检测 Git'}
                       </button>
                       <button className="pixel-btn pixel-btn--small" onClick={handleManualConfirm}>
                         手动确认：我已准备好 →
@@ -292,78 +241,76 @@ export const Chapter4Deploy: React.FC = () => {
                 </>
               )}
 
-              {displayedStepIndex === 2 && !isViewing && (
-                <div className="level-actions">
-                  <button className="pixel-btn pixel-btn--accent" onClick={handleOpenGitHubSignup}>
-                    🌐 前往 GitHub 注册
-                  </button>
-                  <button className="pixel-btn pixel-btn--primary" onClick={() => {
-                    handleNext();
-                    // 刚确认/注册完 GitHub 账号，立即引导点星，停留 5 秒
-                    showNotification(
-                      '⭐ 顺手给冒险指南点颗星？你的支持是我们最大的动力！',
-                      { url: 'https://github.com/Damue01/VibeGuideGame', duration: 5000 },
-                    );
-                  }}>
-                    我已有 GitHub 账号 →
-                  </button>
-                </div>
-              )}
-
-              {displayedStepIndex === 3 && (
+              {displayedStepIndex === 2 && (
                 <>
-                  {!isViewing && (
-                    <div style={{ marginTop: 12, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
-                      <span className="pixel-text-cn" style={{ fontSize: 12, color: 'var(--color-text-dim)' }}>
-                        仓库名称：
-                      </span>
-                      <input
-                        type="text"
-                        value={repoName}
-                        onChange={(e) => setRepoName(e.target.value.replace(/[^a-zA-Z0-9-_]/g, ''))}
-                        className="pixel-input"
-                        style={{ width: 160, fontSize: 13 }}
-                      />
-                      <span className="pixel-text-cn" style={{ fontSize: 12, color: 'var(--color-text-dim)' }}>
-                        GitHub 用户名：
-                      </span>
-                      <input
-                        type="text"
-                        value={githubUsername}
-                        onChange={(e) => setGithubUsername(e.target.value)}
-                        className="pixel-input"
-                        style={{ width: 180, fontSize: 13 }}
-                      />
-                    </div>
-                  )}
-
                   <div className="level-panels-row">
                     <PromptBlock
-                      prompt={deployConfigPrompt}
-                      label="⚙️ 对 AI 说（部署配置）："
-                      explanation="这句会把 gh-pages 配置步骤一次讲清，让 AI 直接改好项目配置。"
+                      prompt={confirmLoginPrompt}
+                      label="💬 对 AI 说："
+                      explanation="让 AI 检查你的 IDE 里有没有登录 GitHub。"
                     />
                     <TroubleShootPanel
                       tips={[
                         {
-                          situation: 'AI 只给解释，没有改文件',
-                          prompt: '请直接修改项目文件并执行必要操作，完成后告诉我变更点。',
+                          situation: '不知道怎么注册 GitHub',
+                          prompt: '我还没有 GitHub 账号，请帮我注册一个。',
                         },
                         {
-                          situation: '配置后仍然不能部署',
-                          prompt: '请检查当前部署配置哪里不完整，直接修复到可部署状态。',
+                          situation: '登录失败',
+                          prompt: 'GitHub 登录失败了，帮我解决。',
                         },
                       ]}
                     />
                   </div>
-
                   {!isViewing && (
                     <div className="level-actions">
-                      <button
-                        className="pixel-btn pixel-btn--accent"
-                        onClick={handleNext}
-                      >
-                        ✅ AI 已帮我配置好 →
+                      <button className="pixel-btn pixel-btn--primary" onClick={() => {
+                        handleNext();
+                        showNotification(
+                          '⭐ 顺手给冒险指南点颗星？你的支持是我们最大的动力！',
+                          { url: 'https://github.com/Damue01/VibeGuideGame', duration: 5000 },
+                        );
+                      }}>
+                        ✅ 已确认登录 →
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+
+              {displayedStepIndex === 3 && (
+                <>
+                  <div className="level-panels-row">
+                    <PromptBlock
+                      prompt={aiDeployPrompt}
+                      label="🚀 对 AI 说："
+                      explanation="这句话会让 AI 帮你完成所有发布步骤，你什么都不用做。"
+                    />
+                    <TroubleShootPanel
+                      tips={[
+                        {
+                          situation: '发布失败了',
+                          prompt: '发布失败了，我把错误信息贴给你，帮我解决。',
+                        },
+                        {
+                          situation: 'AI 只给解释，没有动手',
+                          prompt: '请直接帮我执行所有步骤，不要只给解释。',
+                        },
+                        {
+                          situation: '报错 Pages 未启用 / 权限不足 / 404',
+                          prompt: 'GitHub Actions 部署失败，报错说 Pages 未启用或权限不足。请帮我在仓库 Settings 里把 Pages 的 Source 设为 GitHub Actions，或者用命令行执行：gh api repos/{owner}/{repo}/pages -X POST -f build_type=workflow',
+                        },
+                        {
+                          situation: 'workflow 报错 "Resource not accessible by integration"',
+                          prompt: '部署工作流报错 Resource not accessible by integration。请帮我检查仓库 Settings → Actions → General 里的 Workflow permissions 是否设为 Read and write permissions，以及 Settings → Pages → Source 是否选了 GitHub Actions。',
+                        },
+                      ]}
+                    />
+                  </div>
+                  {!isViewing && (
+                    <div className="level-actions">
+                      <button className="pixel-btn pixel-btn--primary" onClick={handleNext}>
+                        ✅ AI 已完成发布 →
                       </button>
                     </div>
                   )}
@@ -372,104 +319,34 @@ export const Chapter4Deploy: React.FC = () => {
 
               {displayedStepIndex === 4 && (
                 <>
-                  <div className="pixel-panel" style={{ marginTop: 12, maxWidth: 560, borderColor: '#54a0ff' }}>
-                    <p className="pixel-text-cn" style={{ fontSize: 12, lineHeight: 1.8, color: 'var(--color-text-dim)' }}>
-                      📝 创建仓库步骤：
-                      <br />
-                      1. 前往 <strong>github.com/new</strong>
-                      <br />
-                      2. Repository name 填写：<strong>{repoName}</strong>
-                      <br />
-                      3. 选择 <strong>Public</strong>
-                      <br />
-                      4. 不勾选 "Add a README file"
-                      <br />
-                      5. 点击 "Create repository"
-                    </p>
-                  </div>
-                  {!isViewing && (
-                    <div className="level-actions">
-                      <button
-                        className="pixel-btn pixel-btn--accent"
-                        onClick={() => {
-                          const url = 'https://github.com/new';
-                          if (window.electronAPI) window.electronAPI.openExternal(url);
-                          else window.open(url, '_blank');
-                        }}
-                      >
-                        🌐 打开 GitHub 创建仓库
-                      </button>
-                      <button className="pixel-btn pixel-btn--primary" onClick={handleNext}>
-                        仓库已创建 →
-                      </button>
-                    </div>
-                  )}
-                </>
-              )}
-
-              {displayedStepIndex === 5 && (
-                <>
-                  <div className="level-panels-row">
-                    <PromptBlock
-                      prompt={pushAndDeployPrompt}
-                      label="🚀 对 AI 说（推送 + 部署）："
-                      explanation="一次性把 git 初始化、推送和 GitHub Pages 部署都交给 AI。"
-                    />
-                    <TroubleShootPanel
-                      tips={[
-                        {
-                          situation: '推送时报鉴权错误',
-                          prompt: 'Git 推送鉴权失败，请帮我判断原因并给出最短修复路径。',
-                        },
-                        {
-                          situation: '部署后 404 或空白页',
-                          prompt: 'GitHub Pages 上线后异常，请按 base 路径、构建产物、分支配置顺序排查并修复。',
-                        },
-                      ]}
-                    />
-                  </div>
-                  {!isViewing && (
-                    <div className="level-actions">
-                      <button className="pixel-btn pixel-btn--primary" onClick={handleNext}>
-                        ✅ AI 已完成推送与部署 →
-                      </button>
-                    </div>
-                  )}
-                </>
-              )}
-
-              {displayedStepIndex === 6 && (
-                <>
                   <div className="level-panels-row">
                     <div className="pixel-panel" style={{ borderColor: '#ffd700', background: 'rgba(255,215,0,0.08)' }}>
                       <p className="pixel-text-cn" style={{ fontSize: 14, color: '#ffd700', marginBottom: 8 }}>
-                        🌐 你的网站地址：
+                        🌐 你的网站已上线！
                       </p>
-                      <p
-                        className="pixel-text"
-                        style={{ fontSize: 13, color: '#98d8c8', wordBreak: 'break-all' }}
-                        onClick={() => {
-                          const url = `https://${githubUsername}.github.io/${repoName}/`;
-                          handleCopy(url);
-                          if (window.electronAPI) window.electronAPI.openExternal(url);
-                          else window.open(url, '_blank');
-                        }}
-                      >
-                        https://{githubUsername}.github.io/{repoName}/
-                      </p>
-                      <p className="pixel-text-cn" style={{ fontSize: 11, color: 'var(--color-text-dim)', marginTop: 8 }}>
-                        点击上方链接查看（首次部署可能需要等待 1-3 分钟）
+                      <p className="pixel-text-cn" style={{ fontSize: 12, color: 'var(--color-text-dim)' }}>
+                        AI 应该已经告诉你网站地址了。打开看看吧！
+                        <br />
+                        第一次可能需要等 1-3 分钟才能打开。
                       </p>
                     </div>
                     <TroubleShootPanel
                       tips={[
                         {
-                          situation: '访问 404',
-                          prompt: '线上地址 404，请检查 Pages 分支、目录和 base 配置并修复。',
+                          situation: '打开是 404',
+                          prompt: '网站打开显示 404，帮我检查哪里有问题并修复。',
                         },
                         {
-                          situation: '页面空白或样式错乱',
-                          prompt: '页面空白/样式异常，请检查资源路径与构建输出并修复。',
+                          situation: '页面空白',
+                          prompt: '网站打开是空白的，帮我检查并修复。',
+                        },
+                        {
+                          situation: 'GitHub Actions 显示失败（红色叉号）',
+                          prompt: 'GitHub Actions 里的部署工作流失败了，帮我查看 Actions 页面的报错日志并修复。如果是 Pages 没开启，帮我去 Settings → Pages 里把 Source 改为 GitHub Actions。',
+                        },
+                        {
+                          situation: '等了很久还是打不开',
+                          prompt: '网站地址等了 5 分钟还是打不开。帮我检查 GitHub Actions 的部署状态，看看是不是 Pages 没有正确配置。',
                         },
                       ]}
                     />
@@ -484,7 +361,7 @@ export const Chapter4Deploy: React.FC = () => {
                 </>
               )}
 
-              {displayedStepIndex === 7 && !isViewing && (
+              {displayedStepIndex === 5 && !isViewing && (
                 <div className="level-actions">
                   <button className="pixel-btn pixel-btn--accent pixel-btn--large" onClick={handleComplete} disabled={isCompleting}>
                     {isCompleting ? '⏳ 处理中...' : '🗝️ 接收灯塔之钥！'}
@@ -506,7 +383,7 @@ export const Chapter4Deploy: React.FC = () => {
 
         <div className="level-tasks">
           <div className="level-tasks__header">
-            <h3 className="level-tasks__title">📋 传送步骤</h3>
+            <h3 className="level-tasks__title">📋 发布步骤</h3>
             <div className="level-tasks__progress">
               <div className="level-tasks__progress-bar">
                 <div className="level-tasks__progress-fill" style={{ width: `${((currentStepIndex + 1) / STEPS.length) * 100}%` }} />
@@ -536,23 +413,29 @@ export const Chapter4Deploy: React.FC = () => {
 
           <div className="pixel-panel" style={{ marginTop: 16, fontSize: 12 }}>
             <p className="pixel-text-cn" style={{ color: '#ffd700', marginBottom: 8 }}>
-              🌟 Vibe Coding 三原则
+              💡 和AI说话的三个秘诀
             </p>
             <p className="pixel-text-cn" style={{ fontSize: 12, lineHeight: 1.8, color: 'var(--color-text-dim)' }}>
-              <strong>1. 描述目标，不要求自己会命令</strong>
+              <strong>1. 直接说你想要什么</strong>
               <br />
-              <strong>2. 把报错原样贴回给 AI</strong>
+              不用管怎么做，只说结果。
               <br />
-              <strong>3. 一次一个需求，持续迭代</strong>
+              <strong>2. 遇到问题截图给AI</strong>
+              <br />
+              别自己研究，让 AI 帮你解决。
+              <br />
+              <strong>3. 一次只说一个要求</strong>
+              <br />
+              慢慢来，一点一点改，效果最好。
             </p>
           </div>
 
           <div className="pixel-panel" style={{ marginTop: 12, fontSize: 12 }}>
             <p className="pixel-text-cn" style={{ color: '#54a0ff', marginBottom: 8 }}>
-              🤖 AI Agent 能力
+              🤖 AI 能帮你做什么？
             </p>
             <p className="pixel-text-cn" style={{ fontSize: 11, lineHeight: 1.8, color: 'var(--color-text-dim)' }}>
-              可执行命令、读写项目文件、安装依赖、修复部署错误并给出验证路径。你只要持续给目标和反馈。
+              装工具、登录账号、创建仓库、上传代码、发布网站、修复问题……你只管说，它来做。
             </p>
           </div>
         </div>

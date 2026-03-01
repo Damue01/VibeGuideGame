@@ -131,6 +131,20 @@ npm run dev
 npm run build:electron
 ```
 
+### GitHub Pages 部署
+
+推送到 `master` 分支会自动触发 GitHub Actions 部署到 GitHub Pages。
+
+**首次部署前**，需要在仓库中启用 Pages：
+
+1. 打开仓库 **Settings → Pages → Source**，选择 **GitHub Actions**
+2. 或用 GitHub CLI 一条命令搞定：
+   ```bash
+   gh api repos/{owner}/{repo}/pages -X POST -f build_type=workflow
+   ```
+
+> 工作流会尝试自动启用 Pages，但部分仓库权限可能需要手动操作。如果 Actions 运行失败并提示权限不足，请按上述步骤手动开启。
+
 ---
 
 ## 🛠️ 技术栈
