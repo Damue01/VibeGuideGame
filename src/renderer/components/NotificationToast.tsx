@@ -41,6 +41,20 @@ export const NotificationToast: React.FC = () => {
   const { ui, clearNotification } = useGameStore();
   const [toasts, setToasts] = useState<ToastItem[]>([]);
   const prevMsg = useRef<string | null>(null);
+  const prevScreen = useRef<string>(ui.currentScreen);
+
+  // 画面切换时，将所有 toast 触发退场动效并清除
+  useEffect(() => {
+    if (ui.currentScreen !== prevScreen.current) {
+      prevScreen.current = ui.currentScreen;
+      setToasts((prev) => {
+        if (prev.length === 0) return prev;
+        return prev.map((t) => (t.exiting ? t : { ...t, exiting: true }));
+      });
+      const timer = setTimeout(() => setToasts([]), EXIT_MS);
+      return () => clearTimeout(timer);
+    }
+  }, [ui.currentScreen]);
 
   // 当 store 中的 notification 变化时，推入新 toast
   useEffect(() => {

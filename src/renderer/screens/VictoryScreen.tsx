@@ -10,7 +10,7 @@ import { useAudio } from '../audio/useAudio';
 import './VictoryScreen.css';
 
 export const VictoryScreen: React.FC = () => {
-  const { player, setScreen, showNotification } = useGameStore();
+  const { player, setScreen, showNotification, clearNotification } = useGameStore();
   const { effectsRef, shakeRef } = useEffectsContext();
   const { playFirework, playReward, playLevelUp } = useAudio();
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -76,6 +76,8 @@ export const VictoryScreen: React.FC = () => {
   const handleClick = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     for (const t of timeoutRefs.current) clearTimeout(t);
+    // 清除可能残留的持久 toast（如 GitHub 引导）
+    clearNotification();
     setScreen('title');
   };
 

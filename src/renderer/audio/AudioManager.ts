@@ -24,7 +24,7 @@ class AudioManagerClass {
   private sfxVolume = 0.8;
 
   /** 默认 BGM 淡入时长（秒） */
-  private static readonly DEFAULT_FADE_IN = 0.8;
+  private static readonly DEFAULT_FADE_IN = 0.5;
 
   // ============================================================
   // Initialization
@@ -55,6 +55,14 @@ class AudioManagerClass {
         console.warn('AudioContext resume failed:', error);
       }
     }
+  }
+
+  /**
+   * 预热 AudioContext，消除首次创建的冷启动延迟。
+   * 应在应用挂载时尽早调用。
+   */
+  warmUp() {
+    this.ensureContext();
   }
 
   // ============================================================

@@ -17,6 +17,7 @@ import EffectsLayer, { EffectsLayerHandle } from './effects/EffectsLayer';
 import ScreenShake, { ScreenShakeHandle } from './effects/ScreenShake';
 import { EffectsProvider } from './effects/EffectsContext';
 import { useAudio } from './audio/useAudio';
+import { AudioManager } from './audio/AudioManager';
 import type { BGMTrack } from '../shared/types';
 
 const SCREEN_BGM: Record<string, BGMTrack> = {
@@ -35,6 +36,12 @@ const App: React.FC = () => {
   const effectsRef = useRef<EffectsLayerHandle>(null);
   const shakeRef = useRef<ScreenShakeHandle>(null);
   const { playBGM, playClick, unlockAudio } = useAudio();
+
+  // 启动时尽早预热 AudioContext + 播放 BGM，不等存档加载
+  useEffect(() => {
+    AudioManager.warmUp();
+    playBGM('title');
+  }, []);   // eslint-disable-line react-hooks/exhaustive-deps
 
   // 启动时尝试加载存档（Electron / 浏览器 localStorage）
   useEffect(() => {
